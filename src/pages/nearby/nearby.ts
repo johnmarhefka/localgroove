@@ -14,20 +14,7 @@ export class NearbyPage {
 
   venues: Array<any>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService) {
-    // If we navigated to this page, we will have an item available as a nav param
-    //this.selectedItem = navParams.get('item');
-
-
-
-    // this.venues = [];
-    // for (let i = 1; i < 11; i++) {
-    //   this.venues.push({
-    //     title: 'Item ' + i,
-    //     note: 'This is item #' + i
-    //   });
-    // }
-  }
+  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService) { }
 
   ngOnInit(): void {
 
@@ -43,11 +30,12 @@ export class NearbyPage {
   }
 
   getVenues(latitude: number, longitude: number): void {
-    this.venueService.getNearbyVenues(latitude, longitude).then(venues => this.venues = venues);
+    this.venueService.getNearbyVenues(latitude, longitude).then(venues => {
+      this.venues = venues;
+    });
   }
 
   venueTapped(event, venue) {
-    debugger;
     this.navCtrl.push(VenueDetailsPage, {
       item: venue
     });

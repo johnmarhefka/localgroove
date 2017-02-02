@@ -4,12 +4,6 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
- <!--<div *ngIf="selectedVenue" class="selection">
-    <b>{{selectedVenue.title}}</b>
-    <ion-icon name="{{selectedVenue.icon}}"></ion-icon>
-    <div>
-      You navigated here from <b>{{selectedItem.title}}</b>
-    </div>
-  </div>-->
+<ion-content [ngStyle]="{'background-image': 'url(' + localPhoto + ')', 'background-repeat': 'no-repeat', 'background-size': 'cover'}">
+<h1 style="color:white; font-weight: bold;">{{selectedVenue.name}}</h1>
 </ion-content>
