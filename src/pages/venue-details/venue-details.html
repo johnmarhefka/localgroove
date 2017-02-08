@@ -7,13 +7,8 @@
 <!--TODO work out background image style [ngStyle]="{'background-image': 'url(' + localPhoto + ')', 'background-repeat': 'no-repeat', 'background-size': 'cover'}"-->
 <ion-content>
 
-  <ion-list *ngFor="let artist of artists">
-    <ion-list-header>
-      {{artist.name}}
-    </ion-list-header>
-    <ion-item>
-      <button ion-button full outline (click)="artistTapped($event, artist)">Tip the band!</button>
-    </ion-item>
+  <ion-list>
+    <button ion-item *ngFor="let artist of artists" (click)="artistTapped($event, artist)">Tip {{artist.name}}</button>
   </ion-list>
 
   <!--<button ion-button full outline>Tip the band!</button>
