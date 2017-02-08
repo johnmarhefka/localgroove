@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Tip {{artist.name}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label>Tip Amount</ion-label>
+      <ion-select [(ngModel)]="tipAmount">
+        <ion-option value="1">$1</ion-option>
+        <ion-option value="2">$2</ion-option>
+        <ion-option value="5">$5</ion-option>
+        <ion-option value="10">$10</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Comments (optional)</ion-label>
+      <ion-textarea [(ngModel)]="comments"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <button ion-button full outline>Tip {{artist.name}} ${{tipAmount}}.00</button>
+    </ion-item>
+  </ion-list>
+</ion-content>

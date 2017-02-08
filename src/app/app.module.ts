@@ -4,6 +4,7 @@ import { MyApp } from './app.component';
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { NearbyPage } from '../pages/nearby/nearby';
+import { TipPage } from '../pages/tip/tip';
 import { VenueDetailsPage } from '../pages/venue-details/venue-details';
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -13,6 +14,7 @@ import { VenueService } from '../services/venue.service';
   declarations: [
     MyApp,
     NearbyPage,
+    TipPage,
     AboutPage,
     ContactPage,
     TabsPage,
@@ -25,6 +27,7 @@ import { VenueService } from '../services/venue.service';
   entryComponents: [
     MyApp,
     NearbyPage,
+    TipPage,
     AboutPage,
     ContactPage,
     TabsPage,

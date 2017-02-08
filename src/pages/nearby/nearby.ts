@@ -4,7 +4,8 @@ import { NavController, NavParams } from 'ionic-angular';
 
 import { VenueService } from '../../services/venue.service';
 import { VenueDetailsPage } from './../venue-details/venue-details';
-import { Geolocation, Geoposition } from 'ionic-native';
+//TODO: need this back when we go back to getting an actual location
+//import { Geolocation, Geoposition } from 'ionic-native';
 
 @Component({
   selector: 'page-nearby',

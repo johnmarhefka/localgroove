@@ -10,6 +10,18 @@ const SECRET = '5LFOE0TBL5SSC0GZXPDYRP201L3ZNQDFOPMFDIPFGWGRY3JX';
 //TODO: clean up how this URL is shared
 const EXPLORE_URL: string = 'https://api.foursquare.com/v2/venues/explore?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&sortByDistance=1&v=20130815&ll=';
 
+const ARTISTS_AT_VENUE =
+    [
+        {
+            "id": "1234",
+            "name": "Katie Bowers Band"
+        },
+        {
+            "id": "5678",
+            "name": "Billy Thomson Band"
+        }
+    ]
+
 @Injectable()
 export class VenueService {
 
@@ -39,8 +51,8 @@ export class VenueService {
         return this.http.get('https://api.foursquare.com/v2/venues/' + venueId + '/photos?limit=1&v=20130815&client_id=' + CLIENT_ID + '&client_secret=' + SECRET)
             .toPromise()
             .then(
-                // This drills into the response JSON to get the actual venue photo.
-                response => response.json().response.photos.items[0] as any
+            // This drills into the response JSON to get the actual venue photo.
+            response => response.json().response.photos.items[0] as any
             )
             .catch(this.handleError);
     }
@@ -51,4 +63,16 @@ export class VenueService {
         console.error('An error occurred', error); // for demo purposes only
         return Promise.reject(error.message || error);
     }
+
+    // Gets the artist checked in to a particular venue.
+    //TODO make this return a promise, call an actual service, etc.
+    getArtistsAtVenue(venueId: string): Array<any> {
+        return ARTISTS_AT_VENUE;
+    }
+
+    // Posts a check-in for an artist at a venue.
+    checkArtistInToVenue(venueId: string, artistId: string): Promise<any> {
+        return Promise.reject('not implemented');
+    }
+
 }

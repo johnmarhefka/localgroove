@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { VenueService } from '../../services/venue.service';
+import { TipPage } from './../tip/tip';
 
 
 @Component({
@@ -13,6 +14,7 @@ export class VenueDetailsPage {
 
   selectedVenue: any;
   localPhoto: string;
+  artists: Array<any>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService) {
     // If we navigated to this page, we will have an venue available as a nav param
@@ -21,15 +23,23 @@ export class VenueDetailsPage {
   }
 
   ngOnInit(): void {
+    this.getArtists(this.selectedVenue.id);
   }
 
   getVenuePhoto(venueId: string): void {
     this.venueService.getPhotoForVenue(venueId).then(venuePhoto => {
-      debugger;
       this.localPhoto = (venuePhoto.prefix + 'original' + venuePhoto.suffix);
-      //console.log(venuePhoto.prefix + 'original' + venuePhoto.suffix);
     });
   }
 
+  getArtists(venueId: string): void {
+    this.artists = this.venueService.getArtistsAtVenue(venueId);
+  }
+
+  artistTapped(event, artist) {
+    this.navCtrl.push(TipPage, {
+      item: artist
+    });
+  }
 
 }
