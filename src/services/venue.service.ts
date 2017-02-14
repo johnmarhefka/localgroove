@@ -4,9 +4,9 @@ import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-//TODO: Where does one normally store stuff like these values?
-const CLIENT_ID = 'YB4IJ2JMZ5V3EFJCVHHLSPCJCRR4Z5PZQ4FXUP0LLL0QWAVD';
-const SECRET = '5LFOE0TBL5SSC0GZXPDYRP201L3ZNQDFOPMFDIPFGWGRY3JX';
+//TODO: Store these in app settings on the server side and make the call through your service
+const CLIENT_ID = '';
+const SECRET = '';
 //TODO: clean up how this URL is shared
 const EXPLORE_URL: string = 'https://api.foursquare.com/v2/venues/explore?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&sortByDistance=1&v=20130815&ll=';
 
@@ -59,7 +59,6 @@ export class VenueService {
 
 
     private handleError(error: any): Promise<any> {
-        debugger;
         console.error('An error occurred', error); // for demo purposes only
         return Promise.reject(error.message || error);
     }
