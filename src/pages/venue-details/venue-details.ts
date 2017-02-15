@@ -33,7 +33,9 @@ export class VenueDetailsPage {
   }
 
   getArtists(venueId: string): void {
-    this.artists = this.venueService.getArtistsAtVenue(venueId);
+    this.venueService.getArtistsAtVenue(venueId).then(artists => {
+      this.artists = artists;
+    });
   }
 
   artistTapped(event, artist) {

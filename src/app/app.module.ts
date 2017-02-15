@@ -9,7 +9,6 @@ import { VenueDetailsPage } from '../pages/venue-details/venue-details';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { VenueService } from '../services/venue.service';
-import { PaymentService } from '../services/payment.service';
 
 @NgModule({
   declarations: [
@@ -34,6 +33,6 @@ import { PaymentService } from '../services/payment.service';
     TabsPage,
     VenueDetailsPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, VenueService, PaymentService]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, VenueService]
 })
 export class AppModule {}

@@ -10,17 +10,8 @@ const SECRET = '';
 //TODO: clean up how this URL is shared
 const EXPLORE_URL: string = 'https://api.foursquare.com/v2/venues/explore?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&sortByDistance=1&v=20130815&ll=';
 
-const ARTISTS_AT_VENUE =
-    [
-        {
-            "id": "1234",
-            "name": "Katie Bowers Band"
-        },
-        {
-            "id": "5678",
-            "name": "Billy Thomson Band"
-        }
-    ]
+// TODO: Needs to be an environment variable of some kind
+const TIPPY_SERVICE_URL = 'http://localhost:8080/v2/';
 
 @Injectable()
 export class VenueService {
@@ -64,9 +55,15 @@ export class VenueService {
     }
 
     // Gets the artist checked in to a particular venue.
-    //TODO make this return a promise, call an actual service, etc.
-    getArtistsAtVenue(venueId: string): Array<any> {
-        return ARTISTS_AT_VENUE;
+    getArtistsAtVenue(venueId: string): Promise<any[]> {
+        return this.http.get(TIPPY_SERVICE_URL + 'artistCheckIn/getByVenueId?venueId=' + venueId)
+            .toPromise()
+            .then(function (response) {
+                return response.json() as any[];
+            }
+            // This drills into the response JSON to get the actual venue photo.
+            )
+            .catch(this.handleError);
     }
 
     // Posts a check-in for an artist at a venue.
