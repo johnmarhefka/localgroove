@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -67,8 +67,22 @@ export class VenueService {
     }
 
     // Posts a check-in for an artist at a venue.
-    checkArtistInToVenue(venueId: string, artistId: string): Promise<any> {
-        return Promise.reject('not implemented');
+    checkArtistInToVenue(artistId: string, venueId: string, artistName: string): Promise<any> {
+        let artistBeingCheckedIn = {
+            "artistId": artistId,
+            "venueId": venueId,
+            "artistName": artistName,
+            "checkInTime": new Date().toISOString()
+        }
+
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        let body = JSON.stringify(artistBeingCheckedIn);
+
+
+        // TODO: error handling
+        return this.http.post(TIPPY_SERVICE_URL + 'artistCheckIn', body, options)
+            .toPromise();
     }
 
 }

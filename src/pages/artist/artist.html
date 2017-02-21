@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>My Artist Details</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>How should fans tip you?</ion-list-header>
+    <ion-item>
+      <ion-label color="primary" floating>Venmo Email</ion-label>
+      <ion-input [(ngModel)]="artistEmail" type="email" max="254" (blur)="saveArtistEmail()"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>Artist Name</ion-label>
+      <ion-input max="100" [(ngModel)]="artistName" (blur)="saveArtistName()"></ion-input>
+    </ion-item>
+  </ion-list>
+</ion-content>

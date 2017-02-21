@@ -11,6 +11,6 @@
     <button ion-item *ngFor="let artist of artists" (click)="artistTapped($event, artist)">Tip {{artist.name}}</button>
   </ion-list>
 
-  <!--<button ion-button full outline>Tip the band!</button>
-  <button ion-button full outline>Artist Check-in</button>-->
+  
+  <button ion-button full outline (click)="artistCheckInTapped($event)">I'm playing here!</button>
 </ion-content>
