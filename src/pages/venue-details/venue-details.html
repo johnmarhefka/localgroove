@@ -12,5 +12,5 @@
   </ion-list>
 
   
-  <button ion-button full outline (click)="artistCheckInTapped($event)">I'm playing here!</button>
+  <button ion-button full outline [hidden]="artistAlreadyCheckedIn" (click)="artistCheckInTapped($event)">I'm playing here!</button>
 </ion-content>

@@ -20,6 +20,7 @@ export class VenueDetailsPage {
   artists: Array<any>;
   localArtistEmail: string;
   localArtistName: string;
+  artistAlreadyCheckedIn: boolean = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private artistService: ArtistService) {
     // If we navigated to this page, we will have an venue available as a nav param
@@ -28,8 +29,14 @@ export class VenueDetailsPage {
   }
 
   ngOnInit(): void {
-    this.initializeLocalArtistData();
-    this.getArtists(this.selectedVenue.id);
+    // Use promises to make sure the artist doesn't see the check-in button when they're already checked in.
+    this.initializeLocalArtistEmail()
+      .then((val) => {
+        this.initializeLocalArtistName();
+        this.localArtistEmail = val;
+        this.getArtists(this.selectedVenue.id);
+      }
+      );
   }
 
   getVenuePhoto(venueId: string): void {
@@ -41,15 +48,26 @@ export class VenueDetailsPage {
   getArtists(venueId: string): void {
     this.venueService.getArtistsAtVenue(venueId).then(artists => {
       this.artists = artists;
+      // Find out if the current artist is already checked in here. If they are, don't even show the button to check in.
+      let artistFound = false;
+      if (this.localArtistEmail) {
+        for (var i = 0; i < artists.length; i++) {
+          if (artists[i].id == this.localArtistEmail) {
+            artistFound = true;
+          }
+        }
+        if (!artistFound) {
+          this.artistAlreadyCheckedIn = false;
+        }
+      }
     });
   }
 
-  // Initialize email and name from locally-stored values.
-  initializeLocalArtistData(): void {
-    this.artistService.getArtistEmail().then((val) => {
-      this.localArtistEmail = val;
-    });
+  initializeLocalArtistEmail(): Promise<any> {
+    return this.artistService.getArtistEmail();
+  }
 
+  initializeLocalArtistName(): void {
     this.artistService.getArtistName().then((val) => {
       this.localArtistName = val;
     });
@@ -64,7 +82,6 @@ export class VenueDetailsPage {
   artistCheckInTapped(event) {
 
     // TODO: some sort of confirmation here
-    // TODO don't show the artist check-in button at all if they're already checked in here under their current ID
 
     this.venueService.checkArtistInToVenue(this.localArtistEmail, this.selectedVenue.id, this.localArtistName)
       .then((res) => {
@@ -72,6 +89,7 @@ export class VenueDetailsPage {
           "id": this.localArtistEmail,
           "name": this.localArtistName
         };
+        this.artistAlreadyCheckedIn = true;
       });
 
 
