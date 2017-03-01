@@ -11,7 +11,7 @@ const SECRET = '';
 const EXPLORE_URL: string = 'https://api.foursquare.com/v2/venues/explore?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&sortByDistance=1&v=20130815&ll=';
 
 // TODO: Needs to be an environment variable of some kind
-const TIPPY_SERVICE_URL = 'http://localhost:8080/v2/';
+const TIPPY_SERVICE_URL = 'https://tippyserver.herokuapp.com/v2/';
 
 @Injectable()
 export class VenueService {
