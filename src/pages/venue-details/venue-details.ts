@@ -41,7 +41,9 @@ export class VenueDetailsPage {
 
   getVenuePhoto(venueId: string): void {
     this.venueService.getPhotoForVenue(venueId).then(venuePhoto => {
-      this.localPhoto = (venuePhoto.prefix + 'original' + venuePhoto.suffix);
+      if (venuePhoto) {
+        this.localPhoto = (venuePhoto.prefix + 'original' + venuePhoto.suffix);
+      }
     });
   }
 

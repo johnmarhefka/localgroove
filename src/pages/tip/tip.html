@@ -20,7 +20,7 @@
       <ion-textarea [(ngModel)]="comments"></ion-textarea>
     </ion-item>
     <ion-item>
-      <button ion-button full (click)="tipTapped($event)">Tip {{artist.name}} ${{tipAmount}}.00</button>
+      <button ion-button block large (click)="tipTapped($event)">Tip {{artist.name}} ${{tipAmount}}.00</button>
     </ion-item>
   </ion-list>
 </ion-content>
