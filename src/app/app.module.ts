@@ -1,9 +1,9 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { AboutPage } from '../pages/about/about';
 import { ArtistPage } from '../pages/artist/artist';
 import { NearbyPage } from '../pages/nearby/nearby';
+import { WelcomePage } from '../pages/welcome/welcome';
 import { TipPage } from '../pages/tip/tip';
 import { VenueDetailsPage } from '../pages/venue-details/venue-details';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -16,8 +16,8 @@ import { ArtistService } from '../services/artist.service';
   declarations: [
     MyApp,
     NearbyPage,
+    WelcomePage,
     TipPage,
-    AboutPage,
     ArtistPage,
     TabsPage,
     VenueDetailsPage
@@ -29,8 +29,8 @@ import { ArtistService } from '../services/artist.service';
   entryComponents: [
     MyApp,
     NearbyPage,
+    WelcomePage,
     TipPage,
-    AboutPage,
     ArtistPage,
     TabsPage,
     VenueDetailsPage
