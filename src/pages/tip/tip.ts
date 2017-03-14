@@ -45,7 +45,7 @@ export class TipPage {
   // Opens venmo to tip the desired person.
   tipTapped(event) {
     this.getPayUrl().then(
-      payUrl => { let browser = new InAppBrowser(payUrl + this.artist.id + '&amount=' + this.tipAmount + (this.comments ? '&note=' + encodeURI(this.comments) : ''), '_system') }
+      payUrl => { new InAppBrowser(payUrl + this.artist.id + '&amount=' + this.tipAmount + (this.comments ? '&note=' + encodeURI(this.comments) : ''), '_system') }
     );
   }
 }
