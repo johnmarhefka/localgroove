@@ -77,7 +77,8 @@ export class VenueDetailsPage {
 
   artistTapped(event, artist) {
     this.navCtrl.push(TipPage, {
-      item: artist
+      artist: artist,
+      venuePhoto: this.localPhoto
     });
   }
 

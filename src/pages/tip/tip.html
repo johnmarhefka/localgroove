@@ -4,7 +4,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content [ngStyle]="{'background-image': 'url(' + (localPhoto ? localPhoto : '') + ')', 'background-repeat': 'no-repeat', 'background-size': 'cover'}">
   <ion-list>
     <ion-item>
       <ion-label>Tip Amount</ion-label>

@@ -4,7 +4,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content [ngStyle]="{'background-image': 'url(' + localPhoto + ')', 'background-repeat': 'no-repeat', 'background-size': 'cover'}">
+<ion-content [ngStyle]="{'background-image': 'url(' + (localPhoto ? localPhoto : '') + ')', 'background-repeat': 'no-repeat', 'background-size': 'cover'}">
 
   <ion-list>
     <button ion-button block large *ngFor="let artist of artists" (click)="artistTapped($event, artist)">Tip {{artist.name}}</button>

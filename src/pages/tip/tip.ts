@@ -10,13 +10,14 @@ import { AppAvailability, Device } from 'ionic-native';
   templateUrl: 'tip.html'
 })
 export class TipPage {
-
   artist: any;
   tipAmount: number = 1;
   comments: string;
+  localPhoto: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.artist = navParams.data.item;
+    this.artist = navParams.data.artist;
+    this.localPhoto = navParams.data.venuePhoto;
   }
 
   ngOnInit(): void { }
@@ -42,10 +43,9 @@ export class TipPage {
   }
 
   // Opens venmo to tip the desired person.
-  // TODO: make it actually tip the person you're looking at
   tipTapped(event) {
     this.getPayUrl().then(
-      payUrl => { let browser = new InAppBrowser(payUrl + this.artist.id + '&amount=' + this.tipAmount + '&note=' + encodeURI(this.comments), '_system') }
+      payUrl => { let browser = new InAppBrowser(payUrl + this.artist.id + '&amount=' + this.tipAmount + (this.comments ? '&note=' + encodeURI(this.comments) : ''), '_system') }
     );
   }
 }

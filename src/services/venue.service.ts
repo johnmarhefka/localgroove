@@ -4,7 +4,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-//TODO: Store these in app settings on the server side and make the call through your service
+//TODO: Store these in app settings on the server side and make the call through your service (or just keep them secret locally somehow?)
 const CLIENT_ID = '';
 const SECRET = '';
 //TODO: clean up how this URL is shared
@@ -37,13 +37,13 @@ export class VenueService {
             });
     }
 
-    // Gets the single most relevant photo (per the provider) for a given venue.
+    // Gets a photo from the provider for a given venue.
     getPhotoForVenue(venueId: string): Promise<any> {
-        return this.http.get('https://api.foursquare.com/v2/venues/' + venueId + '/photos?limit=1&v=20130815&client_id=' + CLIENT_ID + '&client_secret=' + SECRET)
+        return this.http.get('https://api.foursquare.com/v2/venues/' + venueId + '/photos?limit=10&v=20130815&client_id=' + CLIENT_ID + '&client_secret=' + SECRET)
             .toPromise()
             .then(
             // This drills into the response JSON to get the actual venue photo.
-            response => response.json().response.photos.items[0] as any
+            response => response.json().response.photos.items[Math.floor(Math.random() * response.json().response.photos.count)] as any
             )
             .catch(this.handleError);
     }
