@@ -31,21 +31,25 @@ export class TipPage {
       app = 'com.venmo';
     }
 
-    return AppAvailability.check(app)
-      .then(
-      // This seems to only be reached when the app is there.
-      response => 'venmo://paycharge?txn=pay&audience=private&recipients=' as any
-      )
-      .catch(function (e) {
-        // This is (for now) our way of telling if the app isn't there and deciding to launch in a browser.
-        response => 'https://venmo.com/?txn=pay&audience=private&recipients&recipients=' as any
-      });
+    return AppAvailability.check(app).then(
+      function (response) {  // Success callback
+        return 'venmo://paycharge?txn=pay&audience=private&recipients=';
+      },
+      function (response) {  // Error callback
+        return 'https://venmo.com/?txn=pay&audience=private&recipients=';
+      }
+    );
+
+
   }
+
 
   // Opens venmo to tip the desired person.
   tipTapped(event) {
     this.getPayUrl().then(
-      payUrl => { new InAppBrowser(payUrl + this.artist.id + '&amount=' + this.tipAmount + (this.comments ? '&note=' + encodeURI(this.comments) : ''), '_system') }
+      payUrl => {
+        new InAppBrowser(payUrl + this.artist.id + '&amount=' + this.tipAmount + (this.comments ? '&note=' + encodeURI(this.comments) : ''), '_system')
+      }
     );
   }
 }
