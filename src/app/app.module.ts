@@ -11,6 +11,7 @@ import { Storage } from '@ionic/storage';
 
 import { VenueService } from '../services/venue.service';
 import { ArtistService } from '../services/artist.service';
+import { PaymentService } from '../services/payment.service';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,6 @@ import { ArtistService } from '../services/artist.service';
     TabsPage,
     VenueDetailsPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, VenueService, ArtistService, Storage]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, VenueService, ArtistService, PaymentService, Storage]
 })
 export class AppModule {}

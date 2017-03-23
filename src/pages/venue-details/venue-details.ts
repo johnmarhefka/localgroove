@@ -14,7 +14,6 @@ import { TipPage } from './../tip/tip';
   templateUrl: 'venue-details.html'
 })
 export class VenueDetailsPage {
-
   selectedVenue: any;
   localPhoto: string;
   artists: Array<any>;

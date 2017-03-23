@@ -32,4 +32,5 @@
     <allow-navigation href="http://192.168.255.141:8000" />
     <allow-navigation href="http://192.168.0.108:8000" />
     <plugin name="cordova-sqlite-storage" spec="~2.0.2" />
+    <plugin name="cordova-plugin-appavailability" spec="~0.4.2" />
 </widget>

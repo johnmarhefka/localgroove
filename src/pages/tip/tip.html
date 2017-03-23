@@ -13,14 +13,16 @@
         <ion-option value="2">$2</ion-option>
         <ion-option value="5">$5</ion-option>
         <ion-option value="10">$10</ion-option>
+        <ion-option value="20">$20</ion-option>
       </ion-select>
     </ion-item>
     <ion-item>
       <ion-label stacked>Comments (optional)</ion-label>
       <ion-textarea [(ngModel)]="comments"></ion-textarea>
     </ion-item>
-    <ion-item>
-      <button ion-button block large (click)="tipTapped($event)">Tip {{artist.name}} ${{tipAmount}}.00</button>
+    <ion-item style="text-align: center">
+      <button ion-button block large (click)="tipTapped($event)">Tip ${{tipAmount}}.00 on Venmo</button>
+      <ion-note>Tips are made privately.</ion-note>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -7,12 +7,14 @@
 <ion-content>
   <ion-list>
     <ion-list-header>Let's get you set up.</ion-list-header>
-    <ion-item>
-      <!--TODO: Should this button even show up if they already have Venmo?-->
-      <button ion-button block large (click)="getVenmoTapped($event)">Get Venmo for Payments</button>
+    <ion-item [hidden]="paymentAppButtonHidden">
+      <button ion-button block large (click)="getVenmoTapped($event)">Get Venmo for Tips</button>
+    </ion-item>
+    <ion-item [hidden]="paymentAppConfirmationHidden">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>&nbsp;You already have Venmo.
     </ion-item>
     <ion-item>
-      <button ion-button block large (click)="imAnArtistTapped($event)">I'm an artist!</button>
+      <button ion-button block large (click)="imAnArtistTapped($event)">I'm an Artist</button>
     </ion-item>
     <ion-item>
       <button ion-button color="secondary" block large (click)="getStartedTapped($event)">Let's get started!</button>
