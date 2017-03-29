@@ -5,15 +5,18 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <ion-list [formGroup]="artistForm">
     <ion-list-header>How should fans tip you?</ion-list-header>
     <ion-item>
-      <ion-label color="primary" floating>Venmo Email</ion-label>
-      <ion-input [(ngModel)]="artistEmail" type="email" max="254" (blur)="saveArtistEmail()"></ion-input>
+      <ion-label color="primary" floating>Venmo Email (required)</ion-label>
+      <ion-input [(ngModel)]="artistEmail" type="email" max="254" formControlName="email"></ion-input>
     </ion-item>
+    <p *ngFor="let error of formErrors.email" class="valError">{{error}}</p>
     <ion-item>
-      <ion-label color="primary" floating>Artist Name</ion-label>
-      <ion-input max="100" [(ngModel)]="artistName" (blur)="saveArtistName()"></ion-input>
+      <ion-label color="primary" floating>Artist Name (required)</ion-label>
+      <ion-input max="50" formControlName="name" [(ngModel)]="artistName"></ion-input>
     </ion-item>
+    <p *ngFor="let error of formErrors.name" class="valError">{{error}}</p>
   </ion-list>
+  <p class="valError" [hidden]="fieldsRequiredMessageHidden">Both fields are required.</p>
 </ion-content>
