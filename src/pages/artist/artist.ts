@@ -31,9 +31,7 @@ export class ArtistPage {
     'email': {
       'pattern': 'Invalid email address.'
     },
-    'name': {
-      'required': 'Please enter an Artist Name.'
-    }
+    'name': {}
   }
 
   constructor(public navCtrl: NavController, private storage: Storage, private artistService: ArtistService) { }
@@ -49,8 +47,9 @@ export class ArtistPage {
     });
 
     this.artistForm = new FormGroup({
-      name: new FormControl(''),
+      name: new FormControl('', Validators.required),
       email: new FormControl('', Validators.compose([
+        Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ]))
     });
@@ -64,38 +63,27 @@ export class ArtistPage {
     if (!this.artistForm) { return; }
     const form = this.artistForm;
     let atLeastOneFieldTouched: boolean = false;
-    let nonBlankFieldCount: number = 0;
     let formIsValid: boolean = true;
     for (const field in this.formErrors) {
       // clear previous error message
       this.formErrors[field] = [];
       this.artistForm[field] = '';
       const control = form.get(field);
-      if (control) {
-        if (control.value) {
-          nonBlankFieldCount++;
-        }
-        if (control.dirty) {
-          atLeastOneFieldTouched = true;
-          if (!control.valid) {
-            formIsValid = false;
-            const messages = this.validationMessages[field];
-            for (const key in control.errors) {
-              this.formErrors[field].push(messages[key]);
-            }
+      if (control && control.dirty) {
+        atLeastOneFieldTouched = true;
+        if (!control.valid) {
+          formIsValid = false;
+          const messages = this.validationMessages[field];
+          for (const key in control.errors) {
+            this.formErrors[field].push(messages[key]);
           }
         }
       }
     }
 
-    if (nonBlankFieldCount == 0 || nonBlankFieldCount == 2) {
-      this.fieldsRequiredMessageHidden = true;
-      if (atLeastOneFieldTouched && formIsValid) {
-        this.saveArtistEmail();
-        this.saveArtistName();
-      }
-    } else {
-      this.fieldsRequiredMessageHidden = false;
+    if (atLeastOneFieldTouched && !form.invalid) {
+      this.saveArtistEmail();
+      this.saveArtistName();
     }
   }
 
