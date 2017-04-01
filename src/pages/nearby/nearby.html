@@ -5,9 +5,11 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
   <ion-list>
-    <button ion-item *ngFor="let venue of venues" (click)="venueTapped($event, venue)">
-    {{ venue.venue.name }}
-    </button>
+    <button ion-item *ngFor="let venue of venues" (click)="venueTapped($event, venue)">{{ venue.venue.name }}</button>
   </ion-list>
 </ion-content>

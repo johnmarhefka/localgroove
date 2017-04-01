@@ -29,11 +29,15 @@ export class VenueDetailsPage {
 
   ngOnInit(): void {
     // Use promises to make sure the artist doesn't see the check-in button when they're already checked in.
+    this.initializePage();
+  }
+
+  initializePage(refresher?) {
     this.initializeLocalArtistEmail()
       .then((val) => {
         this.initializeLocalArtistName();
         this.localArtistEmail = val;
-        this.getArtists(this.selectedVenue.id);
+        this.getArtists(this.selectedVenue.id, refresher);
       }
       );
   }
@@ -46,7 +50,7 @@ export class VenueDetailsPage {
     });
   }
 
-  getArtists(venueId: string): void {
+  getArtists(venueId: string, refresher?): void {
     this.venueService.getArtistsAtVenue(venueId).then(artists => {
       this.artists = artists;
       // Find out if the current artist is already checked in here. If they are, don't even show the button to check in.
@@ -61,6 +65,8 @@ export class VenueDetailsPage {
           this.artistAlreadyCheckedIn = false;
         }
       }
+      if (refresher)
+        refresher.complete();
     });
   }
 
@@ -97,6 +103,11 @@ export class VenueDetailsPage {
 
     //TODO: If they don't have artist info yet we need to redirect them to the artist setup page here.
     //this.navCtrl.push(ArtistPage, {});
+  }
+
+  // Event for the pull-down-to-refresh.
+  doRefresh(refresher) {
+    this.initializePage(refresher);
   }
 
 }

@@ -18,11 +18,18 @@ export class NearbyPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService) { }
 
   ngOnInit(): void {
+    this.getVenuesAtCurrentPosition();
+  }
 
-    // This is fake code to get locations in Fells to avoid latency.
-    //this.getVenues(39.2821, -76.5916);
+  // Get current location and pass it along to a function that calls the VenueService.
+  getVenuesAtCurrentPosition(refresher?) {
+    // Hard-coded lat/longs for testing.
+    // let lat = 39.2821;
+    // let long = -76.5916;
+    // // lat += Math.random();
+    // // long += Math.random();
+    // this.getVenues(lat, long, refresher);
 
-    // // Get current location and pass it along to a function that calls the VenueService.
     Geolocation.getCurrentPosition().then((resp) => {
       this.getVenues(resp.coords.latitude, resp.coords.longitude);
     }).catch((error) => {
@@ -30,9 +37,11 @@ export class NearbyPage {
     });
   }
 
-  getVenues(latitude: number, longitude: number): void {
+  getVenues(latitude: number, longitude: number, refresher?): void {
     this.venueService.getNearbyVenues(latitude, longitude).then(venues => {
       this.venues = venues;
+      if (refresher)
+        refresher.complete();
     });
   }
 
@@ -40,6 +49,11 @@ export class NearbyPage {
     this.navCtrl.push(VenueDetailsPage, {
       item: venue
     });
+  }
+
+  // Event for the pull-down-to-refresh.
+  doRefresh(refresher) {
+    this.getVenuesAtCurrentPosition(refresher);;
   }
 
 }
