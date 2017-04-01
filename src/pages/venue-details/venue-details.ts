@@ -1,7 +1,7 @@
 
 import { Component } from '@angular/core';
 
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, LoadingController } from 'ionic-angular';
 
 import { VenueService } from '../../services/venue.service';
 import { ArtistService } from '../../services/artist.service';
@@ -21,23 +21,26 @@ export class VenueDetailsPage {
   localArtistName: string;
   artistAlreadyCheckedIn: boolean = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private artistService: ArtistService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private artistService: ArtistService, public loading: LoadingController) {
     // If we navigated to this page, we will have an venue available as a nav param
     this.selectedVenue = navParams.data.item.venue;
     this.getVenuePhoto(this.selectedVenue.id);
   }
 
   ngOnInit(): void {
-    // Use promises to make sure the artist doesn't see the check-in button when they're already checked in.
-    this.initializePage();
+    let loader = this.loading.create();
+
+    loader.present().then(() => {
+      this.initializePage(null, loader);
+    });
   }
 
-  initializePage(refresher?) {
+  initializePage(refresher?, loader?) {
     this.initializeLocalArtistEmail()
       .then((val) => {
         this.initializeLocalArtistName();
         this.localArtistEmail = val;
-        this.getArtists(this.selectedVenue.id, refresher);
+        this.getArtists(this.selectedVenue.id, refresher, loader);
       }
       );
   }
@@ -50,7 +53,7 @@ export class VenueDetailsPage {
     });
   }
 
-  getArtists(venueId: string, refresher?): void {
+  getArtists(venueId: string, refresher?, loader?): void {
     this.venueService.getArtistsAtVenue(venueId).then(artists => {
       this.artists = artists;
       // Find out if the current artist is already checked in here. If they are, don't even show the button to check in.
@@ -65,6 +68,8 @@ export class VenueDetailsPage {
           this.artistAlreadyCheckedIn = false;
         }
       }
+      if (loader)
+        loader.dismiss();
       if (refresher)
         refresher.complete();
     });
