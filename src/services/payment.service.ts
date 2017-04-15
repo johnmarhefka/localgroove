@@ -22,9 +22,9 @@ export class PaymentService {
     getAppAvailability(): Promise<boolean> {
         let app;
 
-        if (Device.device.platform === 'iOS') {
+        if (Device.platform === 'iOS') {
             app = 'venmo://';
-        } else if (Device.device.platform === 'Android') {
+        } else if (Device.platform === 'Android') {
             app = 'com.venmo';
         }
 
@@ -32,9 +32,9 @@ export class PaymentService {
     }
 
     getAppDownloadUrl(): string {
-        if (Device.device.platform === 'iOS') {
+        if (Device.platform === 'iOS') {
             return 'https://itunes.apple.com/us/app/venmo/id351727428';
-        } else if (Device.device.platform === 'Android') {
+        } else if (Device.platform === 'Android') {
             return 'https://play.google.com/store/apps/details?id=com.venmo';
         }
     }

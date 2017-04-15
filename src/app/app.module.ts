@@ -1,4 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { ArtistPage } from '../pages/artist/artist';
@@ -7,7 +9,7 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { TipPage } from '../pages/tip/tip';
 import { VenueDetailsPage } from '../pages/venue-details/venue-details';
 import { TabsPage } from '../pages/tabs/tabs';
-import { Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { VenueService } from '../services/venue.service';
 import { ArtistService } from '../services/artist.service';
@@ -24,7 +26,10 @@ import { PaymentService } from '../services/payment.service';
     VenueDetailsPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    BrowserModule,
+    HttpModule,
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -36,6 +41,6 @@ import { PaymentService } from '../services/payment.service';
     TabsPage,
     VenueDetailsPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, VenueService, ArtistService, PaymentService, Storage]
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, VenueService, ArtistService, PaymentService]
 })
-export class AppModule {}
+export class AppModule { }
