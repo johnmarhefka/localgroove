@@ -19,7 +19,7 @@ export class VenueDetailsPage {
   artists: Array<any>;
   localArtistEmail: string;
   localArtistName: string;
-  artistAlreadyCheckedIn: boolean = true;
+  hideCheckInButton: boolean = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private artistService: ArtistService, public loading: LoadingController) {
     // If we navigated to this page, we will have an venue available as a nav param
@@ -56,17 +56,22 @@ export class VenueDetailsPage {
   getArtists(venueId: string, refresher?, loader?): void {
     this.venueService.getArtistsAtVenue(venueId).then(artists => {
       this.artists = artists;
-      // Find out if the current artist is already checked in here. If they are, don't even show the button to check in.
-      let artistFound = false;
-      if (this.localArtistEmail) {
-        for (var i = 0; i < artists.length; i++) {
-          if (artists[i].id == this.localArtistEmail) {
-            artistFound = true;
+      if (this.artists.length < 10) {
+        // Find out if the current artist is already checked in here. If they are, don't even show the button to check in.
+        let artistFound = false;
+        if (this.localArtistEmail) {
+          for (var i = 0; i < artists.length; i++) {
+            if (artists[i].id == this.localArtistEmail) {
+              artistFound = true;
+            }
+          }
+          if (!artistFound) {
+            this.hideCheckInButton = false;
           }
         }
-        if (!artistFound) {
-          this.artistAlreadyCheckedIn = false;
-        }
+      } else {
+        // If there are already 10 people checked in here, put a stop to the madness.
+        this.hideCheckInButton = true;
       }
       if (loader)
         loader.dismiss();
@@ -102,12 +107,8 @@ export class VenueDetailsPage {
           "id": this.localArtistEmail,
           "name": this.localArtistName
         };
-        this.artistAlreadyCheckedIn = true;
+        this.hideCheckInButton = true;
       });
-
-
-    //TODO: If they don't have artist info yet we need to redirect them to the artist setup page here.
-    //this.navCtrl.push(ArtistPage, {});
   }
 
   // Event for the pull-down-to-refresh.

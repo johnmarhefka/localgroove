@@ -12,6 +12,7 @@ const EXPLORE_URL: string = 'https://api.foursquare.com/v2/venues/explore?client
 
 // TODO: Needs to be an environment variable of some kind
 const TIPPY_SERVICE_URL = 'https://tippyserver.herokuapp.com/v2/';
+//const TIPPY_SERVICE_URL = 'http://localhost:5000/v2/';
 
 @Injectable()
 export class VenueService {
@@ -54,7 +55,7 @@ export class VenueService {
         return Promise.reject(error.message || error);
     }
 
-    // Gets the artist checked in to a particular venue.
+    // Gets the artist checked in to a particular venue. URI decoding is being done by the server.
     getArtistsAtVenue(venueId: string): Promise<any[]> {
         return this.http.get(TIPPY_SERVICE_URL + 'artistCheckIn/getByVenueId?venueId=' + venueId)
             .toPromise()
@@ -66,12 +67,12 @@ export class VenueService {
             .catch(this.handleError);
     }
 
-    // Posts a check-in for an artist at a venue.
+    // Posts a check-in for an artist at a venue. URI encodes on the way in.
     checkArtistInToVenue(artistId: string, venueId: string, artistName: string): Promise<any> {
         let artistBeingCheckedIn = {
-            "artistId": artistId,
+            "artistId": encodeURI(artistId),
             "venueId": venueId,
-            "artistName": artistName,
+            "artistName": encodeURI(artistName),
             "checkInTime": new Date().toISOString()
         }
 
