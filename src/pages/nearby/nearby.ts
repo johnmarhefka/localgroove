@@ -1,7 +1,8 @@
 
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
-import { Geolocation } from 'ionic-native';
+
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { VenueService } from '../../services/venue.service';
 import { VenueDetailsPage } from './../venue-details/venue-details';
@@ -9,13 +10,14 @@ import { VenueDetailsPage } from './../venue-details/venue-details';
 
 @Component({
   selector: 'page-nearby',
-  templateUrl: 'nearby.html'
+  templateUrl: 'nearby.html',
+  providers: [Geolocation]
 })
 export class NearbyPage {
 
   venues: Array<any>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, public loading: LoadingController) { }
+  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, public loading: LoadingController, private geolocation: Geolocation) { }
 
   ngOnInit(): void {
     let loader = this.loading.create();
@@ -34,7 +36,7 @@ export class NearbyPage {
     // // long += Math.random();
     // this.getVenues(lat, long, refresher);
 
-    Geolocation.getCurrentPosition().then((resp) => {
+    this.geolocation.getCurrentPosition().then((resp) => {
       this.getVenues(resp.coords.latitude, resp.coords.longitude, refresher, loader);
     }).catch((error) => {
       console.log('Error getting location', error);

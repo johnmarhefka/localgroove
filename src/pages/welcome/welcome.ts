@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
-import { InAppBrowser } from 'ionic-native';
+
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { AppAvailability } from '@ionic-native/app-availability';
+import { Device } from '@ionic-native/device';
 
 import { TabsPage } from './../tabs/tabs';
 import { ArtistPage } from './../artist/artist';
@@ -9,13 +12,14 @@ import { PaymentService } from '../../services/payment.service';
 
 @Component({
   selector: 'page-welcome',
-  templateUrl: 'welcome.html'
+  templateUrl: 'welcome.html',
+  providers: [AppAvailability, InAppBrowser, Device]
 })
 export class WelcomePage {
   paymentAppButtonHidden: boolean = true;
   paymentAppConfirmationHidden: boolean = true;
 
-  constructor(public navCtrl: NavController, private paymentService: PaymentService, public loading: LoadingController) { }
+  constructor(public navCtrl: NavController, private paymentService: PaymentService, public loading: LoadingController, private inAppBrowser: InAppBrowser, private appAvailability: AppAvailability, private device: Device) { }
 
   ngOnInit(): void {
     let loader = this.loading.create();
@@ -26,7 +30,7 @@ export class WelcomePage {
 
   // Checks if they have the payment app installed.
   checkAppAvailability(loader?): void {
-    this.paymentService.getAppAvailability().then(
+    this.paymentService.getAppAvailability(this.appAvailability, this.device).then(
       (positiveResponse) => { // Success callback (they have the payment app)
         this.paymentAppButtonHidden = true;
         this.paymentAppConfirmationHidden = false;
@@ -43,7 +47,7 @@ export class WelcomePage {
   }
 
   getVenmoTapped(event) {
-    new InAppBrowser(this.paymentService.getAppDownloadUrl(), '_system')
+    this.inAppBrowser.create(this.paymentService.getAppDownloadUrl(this.device), '_system')
   }
 
   imAnArtistTapped(event) {

@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { AppAvailability, Device } from 'ionic-native';
+import { AppAvailability } from '@ionic-native/app-availability';
+import { Device } from '@ionic-native/device';
 
 @Injectable()
 export class PaymentService {
 
     constructor(private http: Http) { }
 
-    getPayUrl(artistId: any, tipAmount: number, comments: string): Promise<any> {
-        return this.getAppAvailability().then(
+    getPayUrl(artistId: any, tipAmount: number, comments: string, appAvailability: AppAvailability, device: Device): Promise<any> {
+        return this.getAppAvailability(appAvailability, device).then(
             function (response) {  // Success callback
                 return 'venmo://paycharge?txn=pay&audience=private&recipients=' + artistId + '&amount=' + tipAmount + (comments ? '&note=' + encodeURI(comments) : '');
             },
@@ -19,22 +20,22 @@ export class PaymentService {
         );
     }
 
-    getAppAvailability(): Promise<boolean> {
+    getAppAvailability(appAvailability: AppAvailability, device: Device): Promise<boolean> {
         let app;
 
-        if (Device.platform === 'iOS') {
+        if (device.platform === 'iOS') {
             app = 'venmo://';
-        } else if (Device.platform === 'Android') {
+        } else if (device.platform === 'Android') {
             app = 'com.venmo';
         }
 
-        return AppAvailability.check(app);
+        return appAvailability.check(app);
     }
 
-    getAppDownloadUrl(): string {
-        if (Device.platform === 'iOS') {
+    getAppDownloadUrl(device: Device): string {
+        if (device.platform === 'iOS') {
             return 'https://itunes.apple.com/us/app/venmo/id351727428';
-        } else if (Device.platform === 'Android') {
+        } else if (device.platform === 'Android') {
             return 'https://play.google.com/store/apps/details?id=com.venmo';
         }
     }

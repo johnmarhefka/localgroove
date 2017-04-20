@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { InAppBrowser } from 'ionic-native';
+
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { AppAvailability } from '@ionic-native/app-availability';
+import { Device } from '@ionic-native/device';
 
 import { PaymentService } from '../../services/payment.service';
 
 @Component({
   selector: 'page-tip',
-  templateUrl: 'tip.html'
+  templateUrl: 'tip.html',
+  providers: [AppAvailability, InAppBrowser, Device]
 })
 export class TipPage {
   artist: any;
@@ -14,7 +18,7 @@ export class TipPage {
   comments: string;
   localPhoto: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private paymentService: PaymentService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private paymentService: PaymentService, private inAppBrowser: InAppBrowser, private appAvailability: AppAvailability, private device: Device) {
     this.artist = navParams.data.artist;
     this.localPhoto = navParams.data.venuePhoto;
   }
@@ -23,9 +27,9 @@ export class TipPage {
 
   // Opens venmo to tip the desired person.
   tipTapped(event) {
-    this.paymentService.getPayUrl(this.artist.id, this.tipAmount, this.comments).then(
+    this.paymentService.getPayUrl(this.artist.id, this.tipAmount, this.comments, this.appAvailability, this.device).then(
       payUrl => {
-        new InAppBrowser(payUrl, '_system')
+        this.inAppBrowser.create(payUrl, '_system')
       }
     );
   }

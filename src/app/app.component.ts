@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
+
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar'
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { WelcomePage } from '../pages/welcome/welcome';
@@ -9,12 +11,13 @@ import { Storage } from '@ionic/storage';
 const FIRST_APP_LOAD_STORAGE_KEY = 'firstAppLoad';
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+  providers: [SplashScreen, StatusBar]
 })
 export class MyApp {
   rootPage;
 
-  constructor(platform: Platform, private storage: Storage) {
+  constructor(platform: Platform, private storage: Storage, private splashScreen: SplashScreen, private statusBar: StatusBar) {
     platform.ready().then(() => {
 
       this.checkForFirstAppLoad().then(
@@ -32,8 +35,8 @@ export class MyApp {
 
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      StatusBar.styleDefault();
-      Splashscreen.hide();
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
     });
   }
 
