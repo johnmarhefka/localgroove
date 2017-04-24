@@ -7,6 +7,7 @@ import { VenueService } from '../../services/venue.service';
 import { ArtistService } from '../../services/artist.service';
 
 import { TipPage } from './../tip/tip';
+import { ArtistPage } from './../artist/artist';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class VenueDetailsPage {
     this.getVenuePhoto(this.selectedVenue.id);
   }
 
-  ngOnInit(): void {
+  // As compared to ngOnInit(), this is called every time this page loads; even when you come "Back" to it
+  ionViewWillEnter() { 
     let loader = this.loading.create();
 
     loader.present().then(() => {
@@ -65,9 +67,9 @@ export class VenueDetailsPage {
               artistFound = true;
             }
           }
-          if (!artistFound) {
-            this.hideCheckInButton = false;
-          }
+        }
+        if (!artistFound) {
+          this.hideCheckInButton = false;
         }
       } else {
         // If there are already 10 people checked in here, put a stop to the madness.
@@ -98,17 +100,21 @@ export class VenueDetailsPage {
   }
 
   artistCheckInTapped(event) {
+    if (this.localArtistEmail && this.localArtistName) {
+      // TODO: some sort of confirmation here
 
-    // TODO: some sort of confirmation here
-
-    this.venueService.checkArtistInToVenue(this.localArtistEmail, this.selectedVenue.id, this.localArtistName)
-      .then((res) => {
-        this.artists[this.artists.length] = {
-          "id": this.localArtistEmail,
-          "name": this.localArtistName
-        };
-        this.hideCheckInButton = true;
-      });
+      this.venueService.checkArtistInToVenue(this.localArtistEmail, this.selectedVenue.id, this.localArtistName)
+        .then((res) => {
+          this.artists[this.artists.length] = {
+            "id": this.localArtistEmail,
+            "name": this.localArtistName
+          };
+          this.hideCheckInButton = true;
+        });
+    } else {
+      // They're not set up as an artist, so send 'em to the artist info page.
+      this.navCtrl.push(ArtistPage, {});
+    }
   }
 
   // Event for the pull-down-to-refresh.
