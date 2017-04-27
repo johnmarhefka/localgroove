@@ -9,7 +9,10 @@
     <ion-refresher-content>
     </ion-refresher-content>
   </ion-refresher>
-  <ion-list>
+  <div text-center padding-top [hidden]="hideLoadingSpinner">
+    <ion-spinner></ion-spinner>
+  </div>
+  <ion-list [hidden]="hideTipButtons">
     <button ion-button block large *ngFor="let artist of artists" (click)="artistTapped($event, artist)">Tip {{artist.name}}</button>
   </ion-list>
   <button ion-button block large color="secondary" [hidden]="hideCheckInButton" (click)="artistCheckInTapped($event)">I'm playing here!</button>

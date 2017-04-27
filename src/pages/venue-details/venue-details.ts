@@ -1,7 +1,7 @@
 
 import { Component } from '@angular/core';
 
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 
 import { VenueService } from '../../services/venue.service';
 import { ArtistService } from '../../services/artist.service';
@@ -21,28 +21,29 @@ export class VenueDetailsPage {
   localArtistEmail: string;
   localArtistName: string;
   hideCheckInButton: boolean = true;
+  hideTipButtons: boolean = true;
+  hideLoadingSpinner: boolean = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private artistService: ArtistService, public loading: LoadingController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private artistService: ArtistService) {
     // If we navigated to this page, we will have an venue available as a nav param
-    this.selectedVenue = navParams.data.item.venue;
+    this.selectedVenue = navParams.data.item;
     this.getVenuePhoto(this.selectedVenue.id);
   }
 
   // As compared to ngOnInit(), this is called every time this page loads; even when you come "Back" to it
-  ionViewWillEnter() { 
-    let loader = this.loading.create();
-
-    loader.present().then(() => {
-      this.initializePage(null, loader);
-    });
+  ionViewWillEnter() {
+    this.hideLoadingSpinner = false;
+    this.hideCheckInButton = true;
+    this.hideTipButtons = true;
+    this.initializePage();
   }
 
-  initializePage(refresher?, loader?) {
+  initializePage(refresher?) {
     this.initializeLocalArtistEmail()
       .then((val) => {
         this.initializeLocalArtistName();
         this.localArtistEmail = val;
-        this.getArtists(this.selectedVenue.id, refresher, loader);
+        this.getArtists(this.selectedVenue.id, refresher);
       }
       );
   }
@@ -55,7 +56,7 @@ export class VenueDetailsPage {
     });
   }
 
-  getArtists(venueId: string, refresher?, loader?): void {
+  getArtists(venueId: string, refresher?): void {
     this.venueService.getArtistsAtVenue(venueId).then(artists => {
       this.artists = artists;
       if (this.artists.length < 10) {
@@ -75,8 +76,8 @@ export class VenueDetailsPage {
         // If there are already 10 people checked in here, put a stop to the madness.
         this.hideCheckInButton = true;
       }
-      if (loader)
-        loader.dismiss();
+      this.hideLoadingSpinner = true;
+      this.hideTipButtons = false;
       if (refresher)
         refresher.complete();
     });
@@ -119,6 +120,7 @@ export class VenueDetailsPage {
 
   // Event for the pull-down-to-refresh.
   doRefresh(refresher) {
+    this.hideLoadingSpinner = true;
     this.initializePage(refresher);
   }
 

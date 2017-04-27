@@ -1,6 +1,6 @@
 
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 
 import { Geolocation } from '@ionic-native/geolocation';
 
@@ -16,38 +16,45 @@ import { VenueDetailsPage } from './../venue-details/venue-details';
 export class NearbyPage {
 
   venues: Array<any>;
+  latitude: number = null;
+  longitude: number = null;
+  hideLoadingSpinner: boolean = true;
+  searchTerm: string = '';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, public loading: LoadingController, private geolocation: Geolocation) { }
+  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private geolocation: Geolocation) { }
 
   ngOnInit(): void {
-    let loader = this.loading.create();
-
-    loader.present().then(() => {
-      this.getVenuesAtCurrentPosition(null, loader);
-    });
+    this.hideLoadingSpinner = false;
+    this.getVenuesAtCurrentPosition();
   }
 
   // Get current location and pass it along to a function that calls the VenueService.
-  getVenuesAtCurrentPosition(refresher?, loader?) {
+  getVenuesAtCurrentPosition(refresher?) {
     // Hard-coded lat/longs for testing.
-    // let lat = 39.2821;
-    // let long = -76.5916;
+    // let lat = 39.2763;
+    // let long = -76.6141;
     // // lat += Math.random();
     // // long += Math.random();
-    // this.getVenues(lat, long, refresher);
+    // this.getVenues(lat, long, refresher, loader, searchTerm);
 
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.getVenues(resp.coords.latitude, resp.coords.longitude, refresher, loader);
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
+    // If we already have a lat/long, we don't want to keep on locating the device during a single view of the page.
+    if (this.latitude && this.longitude) {
+      this.getVenues(this.latitude, this.longitude, refresher);
+    } else {
+      this.geolocation.getCurrentPosition().then((resp) => {
+        this.latitude = resp.coords.latitude;
+        this.longitude = resp.coords.longitude;
+        this.getVenues(resp.coords.latitude, resp.coords.longitude, refresher);
+      }).catch((error) => {
+        console.log('Error getting location', error);
+      });
+    }
   }
 
-  getVenues(latitude: number, longitude: number, refresher?, loader?): void {
-    this.venueService.getNearbyVenues(latitude, longitude).then(venues => {
+  getVenues(latitude: number, longitude: number, refresher?): void {
+    this.venueService.getNearbyVenues(latitude, longitude, this.searchTerm).then(venues => {
       this.venues = venues;
-      if (loader)
-        loader.dismiss();
+      this.hideLoadingSpinner = true;
       if (refresher)
         refresher.complete();
     });
@@ -61,7 +68,18 @@ export class NearbyPage {
 
   // Event for the pull-down-to-refresh.
   doRefresh(refresher) {
-    this.getVenuesAtCurrentPosition(refresher);;
+    // We want this (unlike a search) to do a fresh locate of the device.
+    this.latitude = null;
+    this.longitude = null;
+    this.hideLoadingSpinner = true;
+    this.getVenuesAtCurrentPosition(refresher);
+  }
+
+  // Event for venue search.
+  onSearchInput(event) {
+    this.venues = null;
+    this.hideLoadingSpinner = false;
+    this.getVenuesAtCurrentPosition();
   }
 
 }
