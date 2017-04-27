@@ -1,7 +1,7 @@
 
 import { Component } from '@angular/core';
 
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 
 import { VenueService } from '../../services/venue.service';
 import { ArtistService } from '../../services/artist.service';
@@ -24,7 +24,7 @@ export class VenueDetailsPage {
   hideTipButtons: boolean = true;
   hideLoadingSpinner: boolean = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private artistService: ArtistService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private artistService: ArtistService, private alertCtrl: AlertController) {
     // If we navigated to this page, we will have an venue available as a nav param
     this.selectedVenue = navParams.data.item;
     this.getVenuePhoto(this.selectedVenue.id);
@@ -102,16 +102,21 @@ export class VenueDetailsPage {
 
   artistCheckInTapped(event) {
     if (this.localArtistEmail && this.localArtistName) {
-      // TODO: some sort of confirmation here
-
-      this.venueService.checkArtistInToVenue(this.localArtistEmail, this.selectedVenue.id, this.localArtistName)
-        .then((res) => {
-          this.artists[this.artists.length] = {
-            "id": this.localArtistEmail,
-            "name": this.localArtistName
-          };
-          this.hideCheckInButton = true;
-        });
+      let confirm = this.alertCtrl.create({
+        title: "You're playing here?",
+        buttons: [
+          {
+            text: 'Nope.'
+          },
+          {
+            text: 'Yep!',
+            handler: () => {
+              this.checkArtistIn();
+            }
+          }
+        ]
+      });
+      confirm.present();
     } else {
       // They're not set up as an artist, so send 'em to the artist info page.
       this.navCtrl.push(ArtistPage, {});
@@ -122,6 +127,17 @@ export class VenueDetailsPage {
   doRefresh(refresher) {
     this.hideLoadingSpinner = true;
     this.initializePage(refresher);
+  }
+
+  checkArtistIn() {
+    this.venueService.checkArtistInToVenue(this.localArtistEmail, this.selectedVenue.id, this.localArtistName)
+      .then((res) => {
+        this.artists[this.artists.length] = {
+          "id": this.localArtistEmail,
+          "name": this.localArtistName
+        };
+        this.hideCheckInButton = true;
+      });
   }
 
 }
