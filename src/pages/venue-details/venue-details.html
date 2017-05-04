@@ -13,7 +13,11 @@
     <ion-spinner></ion-spinner>
   </div>
   <ion-list padding-top [hidden]="hideTipButtons">
-    <button ion-button block large *ngFor="let artist of artists" (click)="artistTapped($event, artist)">Tip {{artist.name}}</button>
+    <ion-item>
+      <button ion-button block large *ngFor="let artist of artists" (click)="artistTapped($event, artist)">Tip {{artist.name}}</button>
+    </ion-item>
   </ion-list>
-  <button ion-button block large color="secondary" [hidden]="hideCheckInButton" (click)="artistCheckInTapped($event)">I'm playing here!</button>
+  <ion-item>
+    <button ion-button block large color="secondary" [hidden]="hideCheckInButton" (click)="artistCheckInTapped($event)">I'm playing here!</button>
+  </ion-item>
 </ion-content>
