@@ -4,7 +4,6 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-//TODO: Store these in app settings on the server side and make the call through your service (or just keep them secret locally somehow?)
 const CLIENT_ID = '';
 const SECRET = '';
 
@@ -93,6 +92,11 @@ export class VenueService {
         // TODO: error handling
         return this.http.post(TIPPY_SERVICE_URL + 'artistCheckIn', body, options)
             .toPromise();
+    }
+
+    // Just a way to get the Foursquare client ID being used.
+    public getAttributionLinkForVenue(venueId: string) : string {
+        return "https://foursquare.com/v/foursquare-hq/" + venueId + "?ref=" + CLIENT_ID;
     }
 
 }

@@ -22,5 +22,5 @@
   </ion-item>
 </ion-content>
 <ion-footer text-center>
-  <a href="https://foursquare.com/v/foursquare-hq/{{selectedVenue.id}}" target="_system"><img src="assets/pbfsq.png" alt="Powered by Foursquare" /></a>
+  <a href="{{this.venueService.getAttributionLinkForVenue(selectedVenue.id)}}" target="_system"><img src="assets/pbfsq.png" alt="Powered by Foursquare" /></a>
 </ion-footer>
