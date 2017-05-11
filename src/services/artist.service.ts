@@ -20,13 +20,11 @@ export class ArtistService {
         this.storage.set(ARTIST_EMAIL_LOCAL_STORAGE_KEY, email);
     }
 
-    //TODO: URL decode on the way out
     getArtistName(): Promise<any> {
         return this.storage.get(ARTIST_NAME_LOCAL_STORAGE_KEY)
             .catch(this.handleError);
     }
 
-    //TODO: URL encode on the way in
     setArtistName(artistName: string) {
         this.storage.set(ARTIST_NAME_LOCAL_STORAGE_KEY, artistName);
     }

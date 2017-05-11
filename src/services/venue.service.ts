@@ -10,7 +10,6 @@ const SECRET = '';
 //const EXPLORE_URL: string = 'https://api.foursquare.com/v2/venues/explore?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&sortByDistance=1&v=20130815&ll=';
 const SEARCH_URL: string = 'https://api.foursquare.com/v2/venues/search?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&sortByDistance=1&v=20130815&ll=';
 
-// TODO: Needs to be an environment variable of some kind
 const TIPPY_SERVICE_URL = 'https://tippyserver.herokuapp.com/v2/';
 //const TIPPY_SERVICE_URL = 'http://localhost:5000/v2/';
 
@@ -19,7 +18,6 @@ export class VenueService {
 
     constructor(private http: Http) { }
 
-    // TODO some of these methods are a little redundant
     private getVenuesAtCoordinates(latitude: number, longitude: number, searchTerm?: string): Promise<any[]> {
 
         let requestUrl: string = SEARCH_URL + latitude + ',' + longitude;
@@ -88,8 +86,6 @@ export class VenueService {
         let options = new RequestOptions({ headers: headers });
         let body = JSON.stringify(artistBeingCheckedIn);
 
-
-        // TODO: error handling
         return this.http.post(TIPPY_SERVICE_URL + 'artistCheckIn', body, options)
             .toPromise();
     }
