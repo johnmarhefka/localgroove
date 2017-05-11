@@ -14,7 +14,7 @@
   </div>
   <ion-list padding-top [hidden]="hideTipButtons">
     <ion-item>
-      <button ion-button block large *ngFor="let artist of artists" (click)="artistTapped($event, artist)">Tip {{artist.name}}</button>
+      <button ion-button block large *ngFor="let artist of artists" (click)="artistTapped($event, artist)"><span class="wrap-text">Tip {{artist.name}}</span></button>
     </ion-item>
   </ion-list>
   <ion-item>
