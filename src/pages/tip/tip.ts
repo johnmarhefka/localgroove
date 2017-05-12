@@ -14,7 +14,7 @@ import { PaymentService } from '../../services/payment.service';
 })
 export class TipPage {
   artist: any;
-  tipAmount: number = 1;
+  tipAmount: number = 5;
   comments: string;
   localPhoto: string;
 

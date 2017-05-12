@@ -8,12 +8,17 @@
   <ion-list [formGroup]="artistForm">
     <ion-list-header>How should fans tip you?</ion-list-header>
     <ion-item>
-      <ion-label color="primary" floating>Venmo Email (required)</ion-label>
+      <ion-label color="primary" floating>Venmo Email <strong><strong>(required)</strong></strong></ion-label>
       <ion-input [(ngModel)]="artistEmail" type="email" maxlength="254" formControlName="email"></ion-input>
     </ion-item>
     <p *ngFor="let error of formErrors.email" class="valError">{{error}}</p>
     <ion-item>
-      <ion-label color="primary" floating>Artist Name (required)</ion-label>
+      <ion-label color="primary" floating>Confirm Venmo Email <strong>(required)</strong></ion-label>
+      <ion-input [(ngModel)]="artistEmailConfirm" type="email" maxlength="254" formControlName="emailConfirm"></ion-input>
+    </ion-item>
+    <p *ngFor="let error of formErrors.emailConfirm" class="valError">{{error}}</p>
+    <ion-item>
+      <ion-label color="primary" floating>Artist Name <strong>(required)</strong></ion-label>
       <ion-input maxlength="50" formControlName="name" [(ngModel)]="artistName"></ion-input>
     </ion-item>
     <p *ngFor="let error of formErrors.name" class="valError">{{error}}</p>

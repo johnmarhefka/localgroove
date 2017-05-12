@@ -130,13 +130,15 @@ export class VenueDetailsPage {
   }
 
   checkArtistIn() {
+    this.hideCheckInButton = true;
+    this.hideLoadingSpinner = false;
     this.venueService.checkArtistInToVenue(this.localArtistEmail, this.selectedVenue.id, this.localArtistName)
       .then((res) => {
         this.artists[this.artists.length] = {
           "id": this.localArtistEmail,
           "name": this.localArtistName
         };
-        this.hideCheckInButton = true;
+        this.hideLoadingSpinner = true;
       });
   }
 
