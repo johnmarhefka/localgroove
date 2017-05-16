@@ -1,7 +1,9 @@
 
 import { Component } from '@angular/core';
 
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ToastController, Toast } from 'ionic-angular';
+
+import { Storage } from '@ionic/storage';
 
 import { VenueService } from '../../services/venue.service';
 import { ArtistService } from '../../services/artist.service';
@@ -9,6 +11,7 @@ import { ArtistService } from '../../services/artist.service';
 import { TipPage } from './../tip/tip';
 import { ArtistPage } from './../artist/artist';
 
+const RAPID_CHECKIN_KEY = 'checkinsWithinLastHour';
 
 @Component({
   selector: 'venue-details-page',
@@ -23,8 +26,9 @@ export class VenueDetailsPage {
   hideCheckInButton: boolean = true;
   hideTipButtons: boolean = true;
   hideLoadingSpinner: boolean = true;
+  toast: Toast;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private artistService: ArtistService, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private artistService: ArtistService, private alertCtrl: AlertController, private storage: Storage, private toastCtrl: ToastController) {
     // If we navigated to this page, we will have an venue available as a nav param
     this.selectedVenue = navParams.data.item;
     this.getVenuePhoto(this.selectedVenue.id);
@@ -38,11 +42,21 @@ export class VenueDetailsPage {
     this.initializePage();
   }
 
+  ionViewWillLeave() {
+    if (this.toast) {
+      this.toast.dismiss();
+    }
+  }
+
   initializePage(refresher?) {
     this.initializeLocalArtistEmail()
       .then((val) => {
         this.initializeLocalArtistName();
         this.localArtistEmail = val;
+        if (!this.localArtistEmail) {
+          // Don't show them the check-in button if they're not an artist.
+          this.hideCheckInButton = true;
+        }
         this.getArtists(this.selectedVenue.id, refresher);
       }
       );
@@ -68,9 +82,12 @@ export class VenueDetailsPage {
               artistFound = true;
             }
           }
-        }
-        if (!artistFound) {
-          this.hideCheckInButton = false;
+          if (!artistFound) {
+            this.hideCheckInButton = false;
+          }
+        } else if (this.artists.length == 0) {
+          // If they're not an artist AND there's nobody checked in here, tell them there's nobody home.
+          this.presentToast();
         }
       } else {
         // If there are already 10 people checked in here, put a stop to the madness.
@@ -130,6 +147,7 @@ export class VenueDetailsPage {
   }
 
   checkArtistIn() {
+    // if (!this.checkForRapidCheckin()) {
     this.hideCheckInButton = true;
     this.hideLoadingSpinner = false;
     this.venueService.checkArtistInToVenue(this.localArtistEmail, this.selectedVenue.id, this.localArtistName)
@@ -140,6 +158,48 @@ export class VenueDetailsPage {
         };
         this.hideLoadingSpinner = true;
       });
+    // }
   }
+
+  // Makes sure this user isn't checking in everywhere frantically to be a funny guy.
+  checkForRapidCheckin(): boolean {
+    let checkinsWithinLastHour = [];
+
+    if (!this.storage.get(RAPID_CHECKIN_KEY)) {
+      // If they don't yet have their array of recent check-ins created in local storage, initialize it as empty.
+      this.storage.set(RAPID_CHECKIN_KEY, []);
+      // This is clearly their first check-in, so make record of it and send them on their way as innocent.
+      checkinsWithinLastHour.push(new Date());
+      return false;
+    } else {
+
+    }
+
+    // Pull down recent checkins.
+    checkinsWithinLastHour.push(this.storage.get(RAPID_CHECKIN_KEY));
+
+    // If we got here, they just attempted a check-in, so make record of that.
+    checkinsWithinLastHour.push(new Date());
+
+    // Loop through their check-ins, deleting those that were more than an hour ago and counting the total of those that were within the last hour
+
+    // Re-set() the local storage value
+
+    // If the total is too high, return true, AND show a toast message.
+
+
+    return false;
+  }
+
+  presentToast() {
+    this.toast = this.toastCtrl.create({
+      message: "Whoops! Nobody is playing here.",
+      cssClass: "toast-neutral",
+      position: 'middle'
+    });
+
+    this.toast.present();
+  }
+
 
 }

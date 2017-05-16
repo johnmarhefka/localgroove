@@ -6,18 +6,9 @@
 
 <ion-content>
   <ion-list>
-    <ion-list-header>Let's get you set up.</ion-list-header>
-    <ion-item [hidden]="paymentAppButtonHidden">
-      <button ion-button block large (click)="getVenmoTapped($event)">Get Venmo for Tips</button>
-    </ion-item>
-    <ion-item [hidden]="paymentAppConfirmationHidden">
-        <ion-icon name="checkmark-circle-outline"></ion-icon><strong>&nbsp;You already have Venmo.</strong>
-    </ion-item>
-    <ion-item>
-      <button ion-button block large (click)="imAnArtistTapped($event)">I'm an Artist</button>
-    </ion-item>
-    <ion-item>
-      <button ion-button color="secondary" block large (click)="getStartedTapped($event)">Let's get started!</button>
-    </ion-item>
+    <ion-list-header>Hi! Who are you?</ion-list-header>
+    <button ion-item (click)="imAFanTapped($event)">I'm a <strong>fan</strong>.</button>
+    <button ion-item (click)="imAnArtistTapped($event)">I'm an <strong>artist</strong>.</button>
+    <button ion-item (click)="imBothTapped($event)">I'm both!</button>
   </ion-list>
 </ion-content>

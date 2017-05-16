@@ -6,6 +6,7 @@ import { MyApp } from './app.component';
 import { ArtistPage } from '../pages/artist/artist';
 import { NearbyPage } from '../pages/nearby/nearby';
 import { WelcomePage } from '../pages/welcome/welcome';
+import { PaymentAppCheckPage } from '../pages/paymentAppCheck/paymentAppCheck';
 import { TipPage } from '../pages/tip/tip';
 import { VenueDetailsPage } from '../pages/venue-details/venue-details';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -20,6 +21,7 @@ import { PaymentService } from '../services/payment.service';
     MyApp,
     NearbyPage,
     WelcomePage,
+    PaymentAppCheckPage,
     TipPage,
     ArtistPage,
     TabsPage,
@@ -36,6 +38,7 @@ import { PaymentService } from '../services/payment.service';
     MyApp,
     NearbyPage,
     WelcomePage,
+    PaymentAppCheckPage,
     TipPage,
     ArtistPage,
     TabsPage,

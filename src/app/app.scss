@@ -12,7 +12,6 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
-
 .valError {
   color: red;
   margin-left: 5%;
@@ -22,4 +21,17 @@
 .wrap-text {
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.toast-success {
+  >div {
+    background-color: #337147!important;
+  }
+  text-align: center;
+  font-weight: bold;
+}
+
+.toast-neutral {
+  text-align: center;
+  font-weight: bold;
 }

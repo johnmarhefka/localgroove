@@ -2,11 +2,13 @@
 import { Component } from '@angular/core';
 import { Validators, FormControl, FormGroup } from '@angular/forms'
 
-import { NavController, ToastController } from 'ionic-angular';
+import { ViewController, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/map';
+
+import { TabsPage } from './../tabs/tabs';
 
 import { ArtistService } from '../../services/artist.service';
 
@@ -41,7 +43,7 @@ export class ArtistPage {
     'name': {}
   }
 
-  constructor(public navCtrl: NavController, private storage: Storage, private artistService: ArtistService, private toastCtrl: ToastController) { }
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private storage: Storage, private artistService: ArtistService, private toastCtrl: ToastController) { }
 
   ngOnInit(): void {
     // Initialize email and name from locally-stored values.
@@ -67,8 +69,13 @@ export class ArtistPage {
     });
 
     this.artistForm.valueChanges
-      .debounceTime(400)
-      .subscribe(data => this.onValueChanged(data));
+      .debounceTime(1000)
+      .subscribe(data => this.saveChanges(data));
+  }
+
+  // We don't ever need the back button on this page.
+  ionViewWillEnter() {
+    this.viewCtrl.showBackButton(false);
   }
 
   // Validates that the "confirm email" value matches the original email value. The parameter is the "confirm email" control.
@@ -104,7 +111,7 @@ export class ArtistPage {
     }
   }
 
-  onValueChanged(data?: any) {
+  saveChanges(data?: any) {
     if (!this.artistForm) { return; }
     const form = this.artistForm;
 
@@ -145,8 +152,8 @@ export class ArtistPage {
 
   presentToast() {
     let toast = this.toastCtrl.create({
-      message: 'Artist details saved!',
-      duration: 2000,
+      message: 'Artist details saved. Select "Venues" below to check in!',
+      duration: 3000,
       cssClass: "toast-success",
       position: 'middle'
     });

@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Welcome to Tippy!</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>{{listHeader}}</ion-list-header>
+    <ion-item [hidden]="buttonsHidden">
+      <button ion-button block large (click)="getVenmoTapped($event)">Get Venmo</button>
+    </ion-item>
+    <ion-item [hidden]="buttonsHidden">
+      <button ion-button color="danger" block large (click)="skipTapped($event)">Skip for now</button>
+    </ion-item>
+  </ion-list>
+</ion-content>
