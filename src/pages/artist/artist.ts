@@ -8,8 +8,6 @@ import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/map';
 
-import { TabsPage } from './../tabs/tabs';
-
 import { ArtistService } from '../../services/artist.service';
 
 const EMAIL_REGEX = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$';
@@ -152,10 +150,10 @@ export class ArtistPage {
 
   presentToast() {
     let toast = this.toastCtrl.create({
-      message: 'Artist details saved. Select "Venues" below to check in!',
+      message: 'Artist details saved. Select "Venues" to check in!',
       duration: 3000,
       cssClass: "toast-success",
-      position: 'middle'
+      position: 'bottom'
     });
 
     toast.present();

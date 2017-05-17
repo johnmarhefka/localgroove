@@ -147,6 +147,7 @@ export class VenueDetailsPage {
   }
 
   checkArtistIn() {
+    
     // if (!this.checkForRapidCheckin()) {
     this.hideCheckInButton = true;
     this.hideLoadingSpinner = false;
@@ -193,7 +194,7 @@ export class VenueDetailsPage {
 
   presentToast() {
     this.toast = this.toastCtrl.create({
-      message: "Whoops! Nobody is playing here.",
+      message: "Nobody is playing here. Bummer.",
       cssClass: "toast-neutral",
       position: 'middle'
     });

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, AlertController, ToastController } from 'ionic-angular';
 
+import { Geolocation } from '@ionic-native/geolocation';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { AppAvailability } from '@ionic-native/app-availability';
 import { Device } from '@ionic-native/device';
@@ -12,24 +13,35 @@ import { PaymentService } from '../../services/payment.service';
 @Component({
   selector: 'page-paymentAppCheck',
   templateUrl: 'paymentAppCheck.html',
-  providers: [AppAvailability, InAppBrowser, Device]
+  providers: [AppAvailability, InAppBrowser, Device, Geolocation]
 })
 export class PaymentAppCheckPage {
 
   isArtist: boolean = false;
-  listHeader: string = "Checking for Venmo...";
+  listHeader: string = "Checking for location and Venmo...";
   buttonsHidden: boolean = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private paymentService: PaymentService, public loading: LoadingController, private inAppBrowser: InAppBrowser, private appAvailability: AppAvailability, private device: Device, private alertCtrl: AlertController, private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private paymentService: PaymentService, public loading: LoadingController, private inAppBrowser: InAppBrowser, private appAvailability: AppAvailability, private device: Device, private alertCtrl: AlertController, private toastCtrl: ToastController, private geolocation: Geolocation) {
     this.isArtist = navParams.data.isArtist;
   }
 
-  ngOnInit(): void {
+  // As compared to ngOnInit(), this is called every time this page loads; even when you come "Back" to it
+  ionViewWillEnter() {
     let loader = this.loading.create();
+
     loader.present().then(() => {
-      this.checkAppAvailability(loader);
+      // This is just being called as part of the setup to make the device ask if the app can use its location.
+      this.geolocation.getCurrentPosition().then((resp) => {
+        // Now check for payment app availability.
+        this.checkAppAvailability(loader);
+      }).catch((error) => {
+        console.log('Error getting location', error);
+        // Even in the error case, we still want to move on to check for app availability.
+        this.checkAppAvailability(loader);
+      });
     });
   }
+
 
   // Checks if they have the payment app installed.
   checkAppAvailability(loader?): void {
@@ -37,7 +49,7 @@ export class PaymentAppCheckPage {
       (positiveResponse) => { // Success callback (they have the payment app)
         if (loader)
           loader.dismiss();
-        this.redirectToNext();
+        this.redirectToNext(true);
       },
       (negativeResponse) => { // Error callback
         if (loader)
@@ -49,19 +61,23 @@ export class PaymentAppCheckPage {
   }
 
   // Give them a toast message and send them to the artist page if they're an artist, venues page if they're a tipper
-  redirectToNext() {
+  redirectToNext(showToast: boolean) {
     if (this.isArtist) {
       this.navCtrl.push(TabsPage, {
         showArtistPage: true
       });
     } else {
-      this.presentToast();
+      if (showToast) {
+        this.presentToast();
+      }
       this.navCtrl.push(TabsPage);
     }
   }
 
   getVenmoTapped(event) {
-    this.inAppBrowser.create(this.paymentService.getAppDownloadUrl(this.device), '_system')
+    this.inAppBrowser.create(this.paymentService.getAppDownloadUrl(this.device), '_system');
+    // While they're getting Venmo, send them along to the next step behind the scenes.
+    this.redirectToNext(false);
   }
 
   skipTapped(event) {

@@ -1,6 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { NavController, NavParams, Tabs } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 
 import { NearbyPage } from '../nearby/nearby';
 import { ArtistPage } from '../artist/artist';
@@ -16,5 +16,4 @@ export class TabsPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.showArtistPage = navParams.data.showArtistPage;
   }
-
 }

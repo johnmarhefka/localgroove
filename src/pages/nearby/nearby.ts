@@ -16,8 +16,8 @@ import { VenueDetailsPage } from './../venue-details/venue-details';
 export class NearbyPage {
 
   venues: Array<any>;
-  latitude: number = null;
-  longitude: number = null;
+  latitude: number = null; // 39.2763;
+  longitude: number = null; // -76.6141;
   hideLoadingSpinner: boolean = true;
   searchTerm: string = '';
 
@@ -30,13 +30,6 @@ export class NearbyPage {
 
   // Get current location and pass it along to a function that calls the VenueService.
   getVenuesAtCurrentPosition(refresher?) {
-    // Hard-coded lat/longs for testing.
-    // let lat = 39.2763;
-    // let long = -76.6141;
-    // // lat += Math.random();
-    // // long += Math.random();
-    // this.getVenues(lat, long, refresher, loader, searchTerm);
-
     // If we already have a lat/long, we don't want to keep on locating the device during a single view of the page.
     if (this.latitude && this.longitude) {
       this.getVenues(this.latitude, this.longitude, refresher);
