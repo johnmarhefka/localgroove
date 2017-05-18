@@ -153,7 +153,7 @@ export class ArtistPage {
       message: 'Artist details saved. Select "Venues" to check in!',
       duration: 3000,
       cssClass: "toast-success",
-      position: 'bottom'
+      position: 'top'
     });
 
     toast.present();

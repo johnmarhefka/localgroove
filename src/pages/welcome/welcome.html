@@ -1,14 +1,14 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Welcome to Tippy!</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>Welcome!</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
     <ion-list-header>Hi! Who are you?</ion-list-header>
-    <button ion-item (click)="imAFanTapped($event)">I'm a <strong>fan</strong>.</button>
-    <button ion-item (click)="imAnArtistTapped($event)">I'm an <strong>artist</strong>.</button>
-    <button ion-item (click)="imBothTapped($event)">I'm both!</button>
+    <button class="roleButton" ion-item detail-push (click)="imAFanTapped($event)">I'm a <strong>fan</strong>.</button>
+    <button class="roleButton" ion-item detail-push (click)="imAnArtistTapped($event)">I'm an <strong>artist</strong>.</button>
+    <button class="roleButton" ion-item detail-push (click)="imBothTapped($event)">I'm both!</button>
   </ion-list>
 </ion-content>
