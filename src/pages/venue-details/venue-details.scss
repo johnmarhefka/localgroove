@@ -1,5 +1,11 @@
 venue-details-page {
-  .item, .item-inner {
+  .item,
+  .item-inner {
+    background-color: transparent;
+    border-bottom: none !important;
+    border-top: none !important;
+  }
+  div.toolbar-background {
     background-color: transparent;
     border-bottom: none !important;
     border-top: none !important;
