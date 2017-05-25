@@ -1,6 +1,6 @@
 
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController, Toast } from 'ionic-angular';
 
 import { Geolocation } from '@ionic-native/geolocation';
 
@@ -20,12 +20,19 @@ export class NearbyPage {
   longitude: number = null; // -76.6141;
   hideLoadingSpinner: boolean = true;
   searchTerm: string = '';
+  toast: Toast;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private geolocation: Geolocation) { }
+  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private geolocation: Geolocation, private toastCtrl: ToastController) {}
 
   ngOnInit(): void {
     this.hideLoadingSpinner = false;
     this.getVenuesAtCurrentPosition();
+  }
+
+  ionViewWillLeave() {
+    if (this.toast) {
+      this.toast.dismiss();
+    }
   }
 
   // Get current location and pass it along to a function that calls the VenueService.
@@ -34,12 +41,16 @@ export class NearbyPage {
     if (this.latitude && this.longitude) {
       this.getVenues(this.latitude, this.longitude, refresher);
     } else {
-      this.geolocation.getCurrentPosition().then((resp) => {
+      this.geolocation.getCurrentPosition({ timeout: 10000 }).then((resp) => {
         this.latitude = resp.coords.latitude;
         this.longitude = resp.coords.longitude;
         this.getVenues(resp.coords.latitude, resp.coords.longitude, refresher);
       }).catch((error) => {
         console.log('Error getting location', error);
+        this.presentToast();
+        this.hideLoadingSpinner = true;
+        if (refresher)
+          refresher.complete();
       });
     }
   }
@@ -65,6 +76,8 @@ export class NearbyPage {
     this.latitude = null;
     this.longitude = null;
     this.hideLoadingSpinner = true;
+    if (this.toast)
+      this.toast.dismiss();
     this.getVenuesAtCurrentPosition(refresher);
   }
 
@@ -72,7 +85,19 @@ export class NearbyPage {
   onSearchInput(event) {
     this.venues = null;
     this.hideLoadingSpinner = false;
+    if (this.toast)
+      this.toast.dismiss();
     this.getVenuesAtCurrentPosition();
+  }
+
+  presentToast() {
+    this.toast = this.toastCtrl.create({
+      message: "Couldn't find ya. Sorry. Are you online and allowing Tippy to access your location?",
+      cssClass: "toast-danger",
+      position: 'middle'
+    });
+
+    this.toast.present();
   }
 
 }
