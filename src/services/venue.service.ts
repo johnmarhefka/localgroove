@@ -39,8 +39,8 @@ export class VenueService {
     getNearbyVenues(latitude: number, longitude: number, searchTerm?: string): Promise<any[]> {
         return this.getVenuesAtCoordinates(latitude, longitude, searchTerm)
             .catch((error) => {
-                console.log('Error getting current coordinates!', error);
-                return null;
+                console.log('Error getting venues at current coordinates!', error);
+                throw error;
             });
     }
 

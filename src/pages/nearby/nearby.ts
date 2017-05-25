@@ -22,7 +22,7 @@ export class NearbyPage {
   searchTerm: string = '';
   toast: Toast;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private geolocation: Geolocation, private toastCtrl: ToastController) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private geolocation: Geolocation, private toastCtrl: ToastController) { }
 
   ngOnInit(): void {
     this.hideLoadingSpinner = false;
@@ -47,10 +47,7 @@ export class NearbyPage {
         this.getVenues(resp.coords.latitude, resp.coords.longitude, refresher);
       }).catch((error) => {
         console.log('Error getting location', error);
-        this.presentToast();
-        this.hideLoadingSpinner = true;
-        if (refresher)
-          refresher.complete();
+        this.throwOfflineError(refresher);
       });
     }
   }
@@ -61,6 +58,9 @@ export class NearbyPage {
       this.hideLoadingSpinner = true;
       if (refresher)
         refresher.complete();
+    }).catch((error) => {
+      console.log('Error getting nearby venues', error);
+      this.throwOfflineError(refresher);
     });
   }
 
@@ -90,14 +90,19 @@ export class NearbyPage {
     this.getVenuesAtCurrentPosition();
   }
 
-  presentToast() {
+  throwOfflineError(refresher?) {
     this.toast = this.toastCtrl.create({
-      message: "Couldn't find ya. Sorry. Are you online and allowing Tippy to access your location?",
+      message: "Couldn't find any venues. Sorry. Are you online and allowing Tippy to access your location?",
       cssClass: "toast-danger",
       position: 'middle'
     });
 
     this.toast.present();
+
+    this.venues = [];
+    this.hideLoadingSpinner = true;
+    if (refresher)
+      refresher.complete();
   }
 
 }
