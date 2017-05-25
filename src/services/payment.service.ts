@@ -4,6 +4,9 @@ import { Http } from '@angular/http';
 import { AppAvailability } from '@ionic-native/app-availability';
 import { Device } from '@ionic-native/device';
 
+
+const DEFAULT_COMMENT = "Tipped via Tippy!"
+
 @Injectable()
 export class PaymentService {
 
@@ -12,10 +15,10 @@ export class PaymentService {
     getPayUrl(artistId: any, tipAmount: number, comments: string, appAvailability: AppAvailability, device: Device): Promise<any> {
         return this.getAppAvailability(appAvailability, device).then(
             function (response) {  // Success callback
-                return 'venmo://paycharge?txn=pay&audience=private&recipients=' + artistId + '&amount=' + tipAmount + (comments ? '&note=' + encodeURI(comments) : '');
+                return 'venmo://paycharge?txn=pay&recipients=' + artistId + '&amount=' + tipAmount + '&note=' + (comments ? encodeURI(comments) : '') + "%0A%0A" + encodeURI(DEFAULT_COMMENT);
             },
             function (response) {  // Error callback
-                return 'https://venmo.com/?txn=pay&audience=private&recipients=' + artistId + '&amount=' + tipAmount + (comments ? '&note=' + encodeURI(comments) : '');
+                return 'https://venmo.com/?txn=pay&recipients=' + artistId + '&amount=' + tipAmount + '&note=' + (comments ? encodeURI(comments) : '') + "%0A%0A" + encodeURI(DEFAULT_COMMENT);
             }
         );
     }
