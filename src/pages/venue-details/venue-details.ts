@@ -11,7 +11,9 @@ import { ArtistService } from '../../services/artist.service';
 import { TipPage } from './../tip/tip';
 import { ArtistPage } from './../artist/artist';
 
-const RAPID_CHECKIN_KEY = 'checkinsWithinLastHour';
+const RECENT_CHECKIN_KEY = 'recentCheckins';
+const RECENT_CHECKIN_TIMEFRAME_IN_HOURS = 1;
+const RECENT_CHECKINS_ALLOWED = 5;
 
 @Component({
   selector: 'venue-details-page',
@@ -87,7 +89,7 @@ export class VenueDetailsPage {
           }
         } else if (this.artists.length == 0) {
           // If they're not an artist AND there's nobody checked in here, tell them there's nobody home.
-          this.presentToast();
+          this.presentNobodyPlayingToast();
         }
       } else {
         // If there are already 10 people checked in here, put a stop to the madness.
@@ -128,7 +130,7 @@ export class VenueDetailsPage {
           {
             text: 'Yep!',
             handler: () => {
-              this.checkArtistIn();
+              this.initializeArtistCheckin();
             }
           }
         ]
@@ -146,9 +148,54 @@ export class VenueDetailsPage {
     this.initializePage(refresher);
   }
 
+  // Checks if the user has been checking in too rapidly, and if not, checks them in as an artist at this venue.
+  initializeArtistCheckin() {
+    this.storage.get(RECENT_CHECKIN_KEY).then(
+      (recentCheckinsFromLocalStorage) => {
+
+        let recentCheckins = [];
+        let rightNow = new Date();
+
+        if (!recentCheckinsFromLocalStorage) {
+          // This is clearly their first check-in, so make record of it and send them on their way as innocent.
+          recentCheckins.push(rightNow);
+          this.storage.set(RECENT_CHECKIN_KEY, recentCheckins);
+          this.checkArtistIn();
+        } else {
+          // Pull down recent checkins.
+          recentCheckins = recentCheckins.concat(recentCheckinsFromLocalStorage);
+
+          let newRecentCheckins = [];
+          // Loop through their check-ins, putting those that were recent enough into a new array.
+          for (var i = 0; i < recentCheckins.length; i++) {
+            let currentCheckin = new Date(recentCheckins[i]);
+            let cutoffTime = new Date();
+            cutoffTime.setHours(rightNow.getHours() - RECENT_CHECKIN_TIMEFRAME_IN_HOURS);
+            if (currentCheckin > cutoffTime) {
+              // This checkin was more recent than the cutoff time, so count it.
+              newRecentCheckins.push(currentCheckin);
+            }
+          }
+
+          if (newRecentCheckins.length < RECENT_CHECKINS_ALLOWED) {
+            // They haven't checked in too many times, so count this check-in and let them move along.
+            newRecentCheckins.push(rightNow);
+            this.storage.set(RECENT_CHECKIN_KEY, newRecentCheckins);
+            this.checkArtistIn();
+          } else {
+            // Too many check-ins. Show a toast and don't check them in.
+            this.presentTooManyCheckinsToast();
+          }
+        }
+      }
+    );
+
+
+
+  }
+
+  // Uses the Venue service to actually check the artist in.
   checkArtistIn() {
-    
-    // if (!this.checkForRapidCheckin()) {
     this.hideCheckInButton = true;
     this.hideLoadingSpinner = false;
     this.venueService.checkArtistInToVenue(this.localArtistEmail, this.selectedVenue.id, this.localArtistName)
@@ -159,40 +206,9 @@ export class VenueDetailsPage {
         };
         this.hideLoadingSpinner = true;
       });
-    // }
   }
 
-  // Makes sure this user isn't checking in everywhere frantically to be a funny guy.
-  checkForRapidCheckin(): boolean {
-    let checkinsWithinLastHour = [];
-
-    if (!this.storage.get(RAPID_CHECKIN_KEY)) {
-      // If they don't yet have their array of recent check-ins created in local storage, initialize it as empty.
-      this.storage.set(RAPID_CHECKIN_KEY, []);
-      // This is clearly their first check-in, so make record of it and send them on their way as innocent.
-      checkinsWithinLastHour.push(new Date());
-      return false;
-    } else {
-
-    }
-
-    // Pull down recent checkins.
-    checkinsWithinLastHour.push(this.storage.get(RAPID_CHECKIN_KEY));
-
-    // If we got here, they just attempted a check-in, so make record of that.
-    checkinsWithinLastHour.push(new Date());
-
-    // Loop through their check-ins, deleting those that were more than an hour ago and counting the total of those that were within the last hour
-
-    // Re-set() the local storage value
-
-    // If the total is too high, return true, AND show a toast message.
-
-
-    return false;
-  }
-
-  presentToast() {
+  presentNobodyPlayingToast() {
     this.toast = this.toastCtrl.create({
       message: "Nobody is playing here. Bummer.",
       cssClass: "toast-neutral",
@@ -202,5 +218,14 @@ export class VenueDetailsPage {
     this.toast.present();
   }
 
+  presentTooManyCheckinsToast() {
+    this.toast = this.toastCtrl.create({
+      message: "Pump the brakes. You can't play everywhere at once!",
+      cssClass: "toast-danger",
+      duration: 3000,
+      position: 'middle'
+    });
 
+    this.toast.present();
+  }
 }
