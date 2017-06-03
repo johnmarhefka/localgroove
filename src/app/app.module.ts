@@ -2,7 +2,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { MyApp } from './app.component';
+import { TippyApp } from './app.component';
 import { ArtistPage } from '../pages/artist/artist';
 import { NearbyPage } from '../pages/nearby/nearby';
 import { WelcomePage } from '../pages/welcome/welcome';
@@ -18,7 +18,7 @@ import { PaymentService } from '../services/payment.service';
 
 @NgModule({
   declarations: [
-    MyApp,
+    TippyApp,
     NearbyPage,
     WelcomePage,
     PaymentAppCheckPage,
@@ -30,12 +30,12 @@ import { PaymentService } from '../services/payment.service';
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(TippyApp),
     IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
+    TippyApp,
     NearbyPage,
     WelcomePage,
     PaymentAppCheckPage,

@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
 
+import { Platform } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar'
+import { Storage } from '@ionic/storage';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { WelcomePage } from '../pages/welcome/welcome';
-import { Storage } from '@ionic/storage';
+
 
 const FIRST_APP_LOAD_STORAGE_KEY = 'firstAppLoad';
 
@@ -14,7 +15,7 @@ const FIRST_APP_LOAD_STORAGE_KEY = 'firstAppLoad';
   templateUrl: 'app.html',
   providers: [SplashScreen, StatusBar]
 })
-export class MyApp {
+export class TippyApp {
   rootPage;
 
   constructor(platform: Platform, private storage: Storage, private splashScreen: SplashScreen, private statusBar: StatusBar) {
