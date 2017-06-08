@@ -7,11 +7,14 @@ import 'rxjs/add/operator/toPromise';
 const CLIENT_ID = '';
 const SECRET = '';
 
+const TIPPY_API_KEY = '';
+
 //const EXPLORE_URL: string = 'https://api.foursquare.com/v2/venues/explore?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&sortByDistance=1&v=20130815&ll=';
 const SEARCH_URL: string = 'https://api.foursquare.com/v2/venues/search?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&sortByDistance=1&v=20130815&ll=';
 
-const TIPPY_SERVICE_URL = 'https://tippyserver.herokuapp.com/v2/';
-//const TIPPY_SERVICE_URL = 'http://localhost:5000/v2/';
+const TIPPY_SERVICE_URL = 'https://tippyserver-dev.herokuapp.com/v2/'; // DEV
+////const TIPPY_SERVICE_URL = 'https://tippyserver.herokuapp.com/v2/'; // PROD
+//const TIPPY_SERVICE_URL = 'http://localhost:5000/v2/'; // Local
 
 @Injectable()
 export class VenueService {
@@ -63,7 +66,7 @@ export class VenueService {
 
     // Gets the artist checked in to a particular venue. URI decoding is being done by the server.
     getArtistsAtVenue(venueId: string): Promise<any[]> {
-        return this.http.get(TIPPY_SERVICE_URL + 'artistCheckIn/getByVenueId?venueId=' + venueId)
+        return this.http.get(TIPPY_SERVICE_URL + 'artistCheckIn/getByVenueId?venueId=' + venueId + '&key=' + TIPPY_API_KEY)
             .toPromise()
             .then(function (response) {
                 return response.json() as any[];
@@ -86,7 +89,7 @@ export class VenueService {
         let options = new RequestOptions({ headers: headers });
         let body = JSON.stringify(artistBeingCheckedIn);
 
-        return this.http.post(TIPPY_SERVICE_URL + 'artistCheckIn', body, options)
+        return this.http.post(TIPPY_SERVICE_URL + 'artistCheckIn?key=' + TIPPY_API_KEY, body, options)
             .toPromise();
     }
 
