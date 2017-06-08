@@ -76,6 +76,18 @@ export class VenueService {
             .catch(this.handleError);
     }
 
+    // See if *anyone* is playing at a given venue.
+    checkForArtistsAtVenue(venueId: string): Promise<boolean> {
+        return this.http.get(TIPPY_SERVICE_URL + 'artistCheckIn/checkByVenueId?venueId=' + venueId + '&key=' + TIPPY_API_KEY)
+            .toPromise()
+            .then(function (response) {
+                return response.json();
+            }
+            // This drills into the response JSON to get the actual venue photo.
+            )
+            .catch(this.handleError);
+    }
+
     // Posts a check-in for an artist at a venue. URI encodes on the way in.
     checkArtistInToVenue(artistId: string, venueId: string, artistName: string): Promise<any> {
         let artistBeingCheckedIn = {
@@ -94,7 +106,7 @@ export class VenueService {
     }
 
     // Just a way to get the Foursquare client ID being used.
-    public getAttributionLinkForVenue(venueId: string) : string {
+    public getAttributionLinkForVenue(venueId: string): string {
         return "https://foursquare.com/v/foursquare-hq/" + venueId + "?ref=" + CLIENT_ID;
     }
 

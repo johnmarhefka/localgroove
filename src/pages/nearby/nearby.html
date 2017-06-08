@@ -14,6 +14,6 @@
     <ion-spinner></ion-spinner>
   </div>
   <ion-list>
-    <button ion-item *ngFor="let venue of venues" (click)="venueTapped($event, venue)">{{ venue.name }}</button>
+    <button ion-item *ngFor="let venue of venues" (click)="venueTapped($event, venue)">{{ venue.name }}<ion-note *ngIf="venue.hasArtist ? true : false" item-end><ion-icon name="musical-notes"></ion-icon></ion-note></button>
   </ion-list>
 </ion-content>

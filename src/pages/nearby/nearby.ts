@@ -58,9 +58,22 @@ export class NearbyPage {
       this.hideLoadingSpinner = true;
       if (refresher)
         refresher.complete();
+    }).then(val => {
+      for (let venue of this.venues) {
+        this.checkForArtistsAtVenues(venue);
+      }
     }).catch((error) => {
       console.log('Error getting nearby venues', error);
       this.throwOfflineError(refresher);
+    });
+  }
+
+
+  checkForArtistsAtVenues(venue: any): void {
+    this.venueService.checkForArtistsAtVenue(venue.id).then(response => {
+      venue.hasArtist = response ? true : false;
+    }).catch((error) => {
+      console.log('Error checking for artist at venue.', error);
     });
   }
 

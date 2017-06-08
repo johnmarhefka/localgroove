@@ -210,7 +210,7 @@ export class VenueDetailsPage {
 
   presentNobodyPlayingToast() {
     this.toast = this.toastCtrl.create({
-      message: "Nobody is playing here. Bummer.",
+      message: "No artists have checked in here. Bummer.",
       cssClass: "toast-neutral",
       position: 'middle'
     });
