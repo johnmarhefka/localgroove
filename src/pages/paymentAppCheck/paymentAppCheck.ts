@@ -102,7 +102,7 @@ export class PaymentAppCheckPage {
   presentToast() {
     let toast = this.toastCtrl.create({
       message: 'You already have Venmo. All set!',
-      duration: 2000,
+      duration: 3000,
       cssClass: "toast-success",
       position: 'middle'
     });

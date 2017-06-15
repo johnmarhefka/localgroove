@@ -107,6 +107,7 @@ export class NearbyPage {
     this.toast = this.toastCtrl.create({
       message: "Couldn't find any venues. Sorry. Are you online and allowing Tippy to access your location?",
       cssClass: "toast-danger",
+      duration: 10000,
       position: 'middle'
     });
 

@@ -212,6 +212,7 @@ export class VenueDetailsPage {
     this.toast = this.toastCtrl.create({
       message: "No artists have checked in here. Bummer.",
       cssClass: "toast-neutral",
+      duration: 10000,
       position: 'middle'
     });
 
