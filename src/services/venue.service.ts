@@ -12,8 +12,8 @@ const TIPPY_API_KEY = '';
 //const EXPLORE_URL: string = 'https://api.foursquare.com/v2/venues/explore?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&sortByDistance=1&v=20130815&ll=';
 const SEARCH_URL: string = 'https://api.foursquare.com/v2/venues/search?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&sortByDistance=1&v=20130815&ll=';
 
-const TIPPY_SERVICE_URL = 'https://tippyserver-dev.herokuapp.com/v2/'; // DEV
-////const TIPPY_SERVICE_URL = 'https://tippyserver.herokuapp.com/v2/'; // PROD
+//const TIPPY_SERVICE_URL = 'https://localgrooveserver-dev.herokuapp.com/v2/'; // DEV
+const TIPPY_SERVICE_URL = 'https://localgrooveserver.herokuapp.com/v2/'; // PROD
 //const TIPPY_SERVICE_URL = 'http://localhost:5000/v2/'; // Local
 
 @Injectable()
