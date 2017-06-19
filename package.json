@@ -70,7 +70,7 @@
     "config": {
         "ionic_source_map": "source-map"
     },
-    "description": "Tippy: An Ionic project",
+    "description": "Local Groove: An Ionic project",
     "cordova": {
         "plugins": {
             "cordova-plugin-appavailability": {},

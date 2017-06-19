@@ -5,7 +5,7 @@ import { AppAvailability } from '@ionic-native/app-availability';
 import { Device } from '@ionic-native/device';
 
 
-const DEFAULT_COMMENT = "Tipped via Tippy!"
+const DEFAULT_COMMENT = "Tipped with Local Groove!"
 
 @Injectable()
 export class PaymentService {

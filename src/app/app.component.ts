@@ -15,7 +15,7 @@ const FIRST_APP_LOAD_STORAGE_KEY = 'firstAppLoad';
   templateUrl: 'app.html',
   providers: [SplashScreen, StatusBar]
 })
-export class TippyApp {
+export class LocalGrooveApp {
   rootPage;
 
   constructor(platform: Platform, private storage: Storage, private splashScreen: SplashScreen, private statusBar: StatusBar) {

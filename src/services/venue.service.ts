@@ -4,17 +4,17 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-const CLIENT_ID = '';
-const SECRET = '';
+const FSQ_CLIENT_ID = '';
+const FSQ_SECRET = '';
 
-const TIPPY_API_KEY = '';
+const LG_API_KEY = '';
 
 //const EXPLORE_URL: string = 'https://api.foursquare.com/v2/venues/explore?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&sortByDistance=1&v=20130815&ll=';
-const SEARCH_URL: string = 'https://api.foursquare.com/v2/venues/search?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&sortByDistance=1&v=20130815&ll=';
+const SEARCH_URL: string = 'https://api.foursquare.com/v2/venues/search?client_id=' + FSQ_CLIENT_ID + '&client_secret=' + FSQ_SECRET + '&sortByDistance=1&v=20130815&ll=';
 
-//const TIPPY_SERVICE_URL = 'https://localgrooveserver-dev.herokuapp.com/v2/'; // DEV
-const TIPPY_SERVICE_URL = 'https://localgrooveserver.herokuapp.com/v2/'; // PROD
-//const TIPPY_SERVICE_URL = 'http://localhost:5000/v2/'; // Local
+//const LG_SERVICE_URL = 'https://localgrooveserver-dev.herokuapp.com/v2/'; // DEV
+const LG_SERVICE_URL = 'https://localgrooveserver.herokuapp.com/v2/'; // PROD
+//const LG_SERVICE_URL = 'http://localhost:5000/v2/'; // Local
 
 @Injectable()
 export class VenueService {
@@ -49,7 +49,7 @@ export class VenueService {
 
     // Gets a photo from the provider for a given venue.
     getPhotoForVenue(venueId: string): Promise<any> {
-        return this.http.get('https://api.foursquare.com/v2/venues/' + venueId + '/photos?limit=10&v=20130815&client_id=' + CLIENT_ID + '&client_secret=' + SECRET)
+        return this.http.get('https://api.foursquare.com/v2/venues/' + venueId + '/photos?limit=10&v=20130815&client_id=' + FSQ_CLIENT_ID + '&client_secret=' + FSQ_SECRET)
             .toPromise()
             .then(
             // This drills into the response JSON to get the actual venue photo.
@@ -66,7 +66,7 @@ export class VenueService {
 
     // Gets the artist checked in to a particular venue. URI decoding is being done by the server.
     getArtistsAtVenue(venueId: string): Promise<any[]> {
-        return this.http.get(TIPPY_SERVICE_URL + 'artistCheckIn/getByVenueId?venueId=' + venueId + '&key=' + TIPPY_API_KEY)
+        return this.http.get(LG_SERVICE_URL + 'artistCheckIn/getByVenueId?venueId=' + venueId + '&key=' + LG_API_KEY)
             .toPromise()
             .then(function (response) {
                 return response.json() as any[];
@@ -78,7 +78,7 @@ export class VenueService {
 
     // See if *anyone* is playing at a given venue.
     checkForArtistsAtVenue(venueId: string): Promise<boolean> {
-        return this.http.get(TIPPY_SERVICE_URL + 'artistCheckIn/checkByVenueId?venueId=' + venueId + '&key=' + TIPPY_API_KEY)
+        return this.http.get(LG_SERVICE_URL + 'artistCheckIn/checkByVenueId?venueId=' + venueId + '&key=' + LG_API_KEY)
             .toPromise()
             .then(function (response) {
                 return response.json();
@@ -101,13 +101,13 @@ export class VenueService {
         let options = new RequestOptions({ headers: headers });
         let body = JSON.stringify(artistBeingCheckedIn);
 
-        return this.http.post(TIPPY_SERVICE_URL + 'artistCheckIn?key=' + TIPPY_API_KEY, body, options)
+        return this.http.post(LG_SERVICE_URL + 'artistCheckIn?key=' + LG_API_KEY, body, options)
             .toPromise();
     }
 
     // Just a way to get the Foursquare client ID being used.
     public getAttributionLinkForVenue(venueId: string): string {
-        return "https://foursquare.com/v/foursquare-hq/" + venueId + "?ref=" + CLIENT_ID;
+        return "https://foursquare.com/v/foursquare-hq/" + venueId + "?ref=" + FSQ_CLIENT_ID;
     }
 
 }
