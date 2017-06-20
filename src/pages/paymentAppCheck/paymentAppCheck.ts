@@ -63,14 +63,14 @@ export class PaymentAppCheckPage {
   // Give them a toast message and send them to the artist page if they're an artist, venues page if they're a tipper
   redirectToNext(showToast: boolean) {
     if (this.isArtist) {
-      this.navCtrl.push(TabsPage, {
+      this.navCtrl.setRoot(TabsPage, {
         showArtistPage: true
       });
     } else {
       if (showToast) {
         this.presentToast();
       }
-      this.navCtrl.push(TabsPage);
+      this.navCtrl.setRoot(TabsPage);
     }
   }
 
