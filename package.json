@@ -72,7 +72,7 @@
     "config": {
         "ionic_source_map": "source-map"
     },
-    "description": "Local Groove: An Ionic project",
+    "description": "Ever wanted to tip your favorite local band when you don't have any cash? Try Local Groove! Payments are powered by Venmo. More great local music-focused features to come. Don't forget to tip your band!",
     "cordova": {
         "plugins": {
             "cordova-plugin-appavailability": {},

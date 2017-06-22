@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.localgroove" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Local Groove</name>
-    <description>An awesome Ionic/Cordova app.</description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
+    <description email="localgroovejohn@gmail.com" href="http://ionicframework.com/">Ever wanted to tip your favorite local band when you don't have any cash? Try Local Groove! Payments are powered by Venmo. More great local music-focused features to come. Don't forget to tip your band!</description>
+    <author>John Marhefka</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
