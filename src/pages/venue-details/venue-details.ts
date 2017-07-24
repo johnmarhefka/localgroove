@@ -144,6 +144,9 @@ export class VenueDetailsPage {
 
   // Event for the pull-down-to-refresh.
   doRefresh(refresher) {
+    if (this.toast) {
+      this.toast.dismiss();
+    }
     this.hideLoadingSpinner = true;
     this.initializePage(refresher);
   }
