@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 
 import { NavController, NavParams, AlertController, ToastController, Toast } from 'ionic-angular';
@@ -7,6 +6,7 @@ import { Storage } from '@ionic/storage';
 
 import { VenueService } from '../../services/venue.service';
 import { ArtistService } from '../../services/artist.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 import { TipPage } from './../tip/tip';
 import { ArtistPage } from './../artist/artist';
@@ -30,7 +30,7 @@ export class VenueDetailsPage {
   hideLoadingSpinner: boolean = true;
   toast: Toast;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private artistService: ArtistService, private alertCtrl: AlertController, private storage: Storage, private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private artistService: ArtistService, private analyticsService: AnalyticsService, private alertCtrl: AlertController, private storage: Storage, private toastCtrl: ToastController) {
     // If we navigated to this page, we will have an venue available as a nav param
     this.selectedVenue = navParams.data.item;
     this.getVenuePhoto(this.selectedVenue.id);
@@ -99,6 +99,7 @@ export class VenueDetailsPage {
       this.hideTipButtons = false;
       if (refresher)
         refresher.complete();
+      this.logPageView();
     });
   }
 
@@ -231,5 +232,9 @@ export class VenueDetailsPage {
     });
 
     this.toast.present();
+  }
+
+  logPageView() {
+    this.analyticsService.logPageView({ page: "venue-details", venueId: this.selectedVenue.id, venueName: this.selectedVenue.name, lat: this.selectedVenue.location.lat, lng: this.selectedVenue.location.lng, loggedInArtistEmail: this.localArtistEmail, loggedInArtistName: this.localArtistName });
   }
 }

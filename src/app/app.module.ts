@@ -11,10 +11,12 @@ import { TipPage } from '../pages/tip/tip';
 import { VenueDetailsPage } from '../pages/venue-details/venue-details';
 import { TabsPage } from '../pages/tabs/tabs';
 import { IonicStorageModule } from '@ionic/storage';
+import { FirebaseAnalytics } from '@ionic-native/firebase-analytics';
 
 import { VenueService } from '../services/venue.service';
 import { ArtistService } from '../services/artist.service';
 import { PaymentService } from '../services/payment.service';
+import { AnalyticsService } from '../services/analytics.service';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,6 @@ import { PaymentService } from '../services/payment.service';
     TabsPage,
     VenueDetailsPage
   ],
-  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, VenueService, ArtistService, PaymentService]
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, VenueService, ArtistService, PaymentService, AnalyticsService, FirebaseAnalytics]
 })
 export class AppModule { }
