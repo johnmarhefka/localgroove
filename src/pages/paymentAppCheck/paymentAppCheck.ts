@@ -9,6 +9,7 @@ import { Device } from '@ionic-native/device';
 import { TabsPage } from './../tabs/tabs';
 
 import { PaymentService } from '../../services/payment.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'page-paymentAppCheck',
@@ -21,12 +22,14 @@ export class PaymentAppCheckPage {
   listHeader: string = "Checking for location and Venmo...";
   buttonsHidden: boolean = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private paymentService: PaymentService, public loading: LoadingController, private inAppBrowser: InAppBrowser, private appAvailability: AppAvailability, private device: Device, private alertCtrl: AlertController, private toastCtrl: ToastController, private geolocation: Geolocation) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private paymentService: PaymentService, private analyticsService: AnalyticsService, public loading: LoadingController, private inAppBrowser: InAppBrowser, private appAvailability: AppAvailability, private device: Device, private alertCtrl: AlertController, private toastCtrl: ToastController, private geolocation: Geolocation) {
     this.isArtist = navParams.data.isArtist;
   }
 
   // As compared to ngOnInit(), this is called every time this page loads; even when you come "Back" to it
   ionViewWillEnter() {
+    this.logPageView();
+
     let loader = this.loading.create();
 
     loader.present().then(() => {
@@ -109,4 +112,10 @@ export class PaymentAppCheckPage {
 
     toast.present();
   }
+
+  logPageView() {
+    this.analyticsService.setCurrentScreen('paymentAppCheck');
+    this.analyticsService.logPageView({ page: "paymentAppCheck" });
+  }
+
 }

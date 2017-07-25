@@ -9,6 +9,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/map';
 
 import { ArtistService } from '../../services/artist.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 const EMAIL_REGEX = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$';
 
@@ -41,7 +42,7 @@ export class ArtistPage {
     'name': {}
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private storage: Storage, private artistService: ArtistService, private toastCtrl: ToastController) { }
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private storage: Storage, private artistService: ArtistService, private analyticsService: AnalyticsService, private toastCtrl: ToastController) { }
 
   ngOnInit(): void {
     // Initialize email and name from locally-stored values.
@@ -71,9 +72,10 @@ export class ArtistPage {
       .subscribe(data => this.saveChanges(data));
   }
 
-  // We don't ever need the back button on this page.
   ionViewWillEnter() {
+    // We don't ever need the back button on this page.
     this.viewCtrl.showBackButton(false);
+    this.logPageView();
   }
 
   // Validates that the "confirm email" value matches the original email value. The parameter is the "confirm email" control.
@@ -137,6 +139,7 @@ export class ArtistPage {
       this.saveArtistEmail();
       this.saveArtistName();
       this.presentToast();
+      this.analyticsService.logEvent("artist_registered", { artistEmail: this.artistEmail.trim().toLowerCase(), artistName: this.artistName.trim() });
     }
   }
 
@@ -157,5 +160,10 @@ export class ArtistPage {
     });
 
     toast.present();
+  }
+
+  logPageView() {
+    this.analyticsService.setCurrentScreen('artist');
+    this.analyticsService.logPageView({ page: "artist" });
   }
 }

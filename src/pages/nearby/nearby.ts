@@ -5,6 +5,8 @@ import { NavController, NavParams, ToastController, Toast } from 'ionic-angular'
 import { Geolocation } from '@ionic-native/geolocation';
 
 import { VenueService } from '../../services/venue.service';
+import { AnalyticsService } from '../../services/analytics.service';
+
 import { VenueDetailsPage } from './../venue-details/venue-details';
 
 
@@ -22,10 +24,11 @@ export class NearbyPage {
   searchTerm: string = '';
   toast: Toast;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private geolocation: Geolocation, private toastCtrl: ToastController) { }
+  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private analyticsService: AnalyticsService, private geolocation: Geolocation, private toastCtrl: ToastController) { }
 
   ngOnInit(): void {
     this.hideLoadingSpinner = false;
+    this.logPageView();
     this.getVenuesAtCurrentPosition();
   }
 
@@ -117,6 +120,11 @@ export class NearbyPage {
     this.hideLoadingSpinner = true;
     if (refresher)
       refresher.complete();
+  }
+
+  logPageView() {
+    this.analyticsService.setCurrentScreen('nearby');
+    this.analyticsService.logPageView({ page: "nearby" });
   }
 
 }

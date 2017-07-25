@@ -116,7 +116,8 @@ export class VenueDetailsPage {
   artistTapped(event, artist) {
     this.navCtrl.push(TipPage, {
       artist: artist,
-      venuePhoto: this.localPhoto
+      venuePhoto: this.localPhoto,
+      venue: this.selectedVenue
     });
   }
 
@@ -202,6 +203,7 @@ export class VenueDetailsPage {
   checkArtistIn() {
     this.hideCheckInButton = true;
     this.hideLoadingSpinner = false;
+    this.analyticsService.logEvent("artist_checkin", { venueId: this.selectedVenue.id, venueName: this.selectedVenue.name, lat: this.selectedVenue.location.lat, lng: this.selectedVenue.location.lng, artistEmail: this.localArtistEmail, artistName: this.localArtistName });
     this.venueService.checkArtistInToVenue(this.localArtistEmail, this.selectedVenue.id, this.localArtistName)
       .then((res) => {
         this.artists[this.artists.length] = {
@@ -235,6 +237,7 @@ export class VenueDetailsPage {
   }
 
   logPageView() {
+    this.analyticsService.setCurrentScreen('venue-details');
     this.analyticsService.logPageView({ page: "venue-details", venueId: this.selectedVenue.id, venueName: this.selectedVenue.name, lat: this.selectedVenue.location.lat, lng: this.selectedVenue.location.lng, loggedInArtistEmail: this.localArtistEmail, loggedInArtistName: this.localArtistName });
   }
 }
