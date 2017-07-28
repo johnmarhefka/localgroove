@@ -11,6 +11,8 @@ import { TabsPage } from './../tabs/tabs';
 import { PaymentService } from '../../services/payment.service';
 import { AnalyticsService } from '../../services/analytics.service';
 
+const HEADER_MESSAGE = "You'll need Venmo for finances. It's free, secure, and fun!";
+
 @Component({
   selector: 'page-paymentAppCheck',
   templateUrl: 'paymentAppCheck.html',
@@ -57,7 +59,7 @@ export class PaymentAppCheckPage {
       (negativeResponse) => { // Error callback
         if (loader)
           loader.dismiss();
-        this.listHeader = "You'll need Venmo for tips.";
+        this.listHeader = HEADER_MESSAGE;
         this.buttonsHidden = false;
       }
     );
