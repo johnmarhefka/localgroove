@@ -238,6 +238,6 @@ export class VenueDetailsPage {
 
   logPageView() {
     this.analyticsService.setCurrentScreen('venue-details');
-    this.analyticsService.logPageView({ page: "venue-details", venueId: this.selectedVenue.id, venueName: this.selectedVenue.name, lat: this.selectedVenue.location.lat, lng: this.selectedVenue.location.lng, loggedInArtistEmail: this.localArtistEmail, loggedInArtistName: this.localArtistName });
+    this.analyticsService.logPageView({ page: "venue-details", venueId: this.selectedVenue.id, venueName: this.selectedVenue.name, lat: this.selectedVenue.location.lat, lng: this.selectedVenue.location.lng });
   }
 }
