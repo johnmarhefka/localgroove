@@ -44,10 +44,10 @@ export class NearbyPage {
     if (this.latitude && this.longitude) {
       this.getVenues(this.latitude, this.longitude, refresher);
     } else {
-      this.geolocation.getCurrentPosition({ timeout: 10000 }).then((resp) => {
-        this.latitude = resp.coords.latitude;
-        this.longitude = resp.coords.longitude;
-        this.getVenues(resp.coords.latitude, resp.coords.longitude, refresher);
+      this.geolocation.getCurrentPosition({ timeout: 30000 }).then((resp) => {
+        this.latitude = resp.coords.latitude;//39.2763;
+        this.longitude = resp.coords.longitude;//-76.6141;
+        this.getVenues(this.latitude, this.longitude, refresher);
       }).catch((error) => {
         console.log('Error getting location', error);
         this.throwOfflineError(refresher);
@@ -108,7 +108,7 @@ export class NearbyPage {
 
   throwOfflineError(refresher?) {
     this.toast = this.toastCtrl.create({
-      message: "Couldn't find any venues. Sorry. Are you online and allowing Local Groove to access your location?",
+      message: "Couldn't find any venues. Sorry. Pull down to try again!",
       cssClass: "toast-danger",
       duration: 10000,
       position: 'middle'

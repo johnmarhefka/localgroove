@@ -1,4 +1,5 @@
 import { NgModule, ErrorHandler } from '@angular/core';
+import { NgPipesModule } from 'ngx-pipes';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -33,7 +34,8 @@ import { AnalyticsService } from '../services/analytics.service';
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(LocalGrooveApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    NgPipesModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
