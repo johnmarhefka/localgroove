@@ -11,13 +11,16 @@ import { AnalyticsService } from '../../services/analytics.service';
 import { TipPage } from './../tip/tip';
 import { ArtistPage } from './../artist/artist';
 
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+
 const RECENT_CHECKIN_KEY = 'recentCheckins';
 const RECENT_CHECKIN_TIMEFRAME_IN_HOURS = 1;
 const RECENT_CHECKINS_ALLOWED = 5;
 
 @Component({
   selector: 'venue-details-page',
-  templateUrl: 'venue-details.html'
+  templateUrl: 'venue-details.html',
+  providers: [Facebook]
 })
 export class VenueDetailsPage {
   selectedVenue: any;
@@ -30,7 +33,7 @@ export class VenueDetailsPage {
   hideLoadingSpinner: boolean = true;
   toast: Toast;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private artistService: ArtistService, private analyticsService: AnalyticsService, private alertCtrl: AlertController, private storage: Storage, private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private artistService: ArtistService, private analyticsService: AnalyticsService, private alertCtrl: AlertController, private storage: Storage, private toastCtrl: ToastController, private fb: Facebook) {
     // If we navigated to this page, we will have an venue available as a nav param
     this.selectedVenue = navParams.data.item;
     this.getVenuePhoto(this.selectedVenue.id);
@@ -142,6 +145,23 @@ export class VenueDetailsPage {
       // They're not set up as an artist, so send 'em to the artist info page.
       this.navCtrl.push(ArtistPage, {});
     }
+  }
+
+  facebookTapped(event) {
+
+
+    this.fb.showDialog({
+      method: 'share',
+      picture: 'https://www.localgrooveapp.com/tippy_icon-square.png',
+      href: 'https://localgrooveapp.com/venue.html?venueId=' + encodeURI(this.selectedVenue.id) + '&venueName=' + encodeURI(this.selectedVenue.name),
+      // title: 'Title.',
+      // hashtag: '#supportlocalmusic',
+      // data: "thedata",
+      // title: "theTitle",
+      // description: 'Much description',
+      
+    });
+
   }
 
   // Event for the pull-down-to-refresh.
