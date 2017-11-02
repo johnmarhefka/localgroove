@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { NavController, NavParams, AlertController, ToastController, Toast } from 'ionic-angular';
 
@@ -11,7 +11,7 @@ import { AnalyticsService } from '../../services/analytics.service';
 import { TipPage } from './../tip/tip';
 import { ArtistPage } from './../artist/artist';
 
-import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 const RECENT_CHECKIN_KEY = 'recentCheckins';
 const RECENT_CHECKIN_TIMEFRAME_IN_HOURS = 1;
@@ -20,7 +20,7 @@ const RECENT_CHECKINS_ALLOWED = 5;
 @Component({
   selector: 'venue-details-page',
   templateUrl: 'venue-details.html',
-  providers: [Facebook]
+  providers: [SocialSharing]
 })
 export class VenueDetailsPage {
   selectedVenue: any;
@@ -32,8 +32,9 @@ export class VenueDetailsPage {
   hideTipButtons: boolean = true;
   hideLoadingSpinner: boolean = true;
   toast: Toast;
+  backgroundImageStyle: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private artistService: ArtistService, private analyticsService: AnalyticsService, private alertCtrl: AlertController, private storage: Storage, private toastCtrl: ToastController, private fb: Facebook) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private venueService: VenueService, private artistService: ArtistService, private analyticsService: AnalyticsService, private alertCtrl: AlertController, private storage: Storage, private toastCtrl: ToastController, private socialSharing: SocialSharing) {
     // If we navigated to this page, we will have an venue available as a nav param
     this.selectedVenue = navParams.data.item;
     this.getVenuePhoto(this.selectedVenue.id);
@@ -45,6 +46,10 @@ export class VenueDetailsPage {
     this.hideCheckInButton = true;
     this.hideTipButtons = true;
     this.initializePage();
+  }
+
+  ionViewDidEnter() {
+    this.backgroundImageStyle = { 'background-image': 'url(' + (this.localPhoto ? this.localPhoto : '') + ')', 'background-repeat': 'no-repeat', 'background-size': 'cover', 'background-color': (this.localPhoto ? 'transparent' : '#fff') };
   }
 
   ionViewWillLeave() {
@@ -90,9 +95,6 @@ export class VenueDetailsPage {
           if (!artistFound) {
             this.hideCheckInButton = false;
           }
-        } else if (this.artists.length == 0) {
-          // If they're not an artist AND there's nobody checked in here, tell them there's nobody home.
-          this.presentNobodyPlayingToast();
         }
       } else {
         // If there are already 10 people checked in here, put a stop to the madness.
@@ -148,20 +150,12 @@ export class VenueDetailsPage {
   }
 
   facebookTapped(event) {
-
-
-    this.fb.showDialog({
-      method: 'share',
-      picture: 'https://www.localgrooveapp.com/tippy_icon-square.png',
-      href: 'https://localgrooveapp.com/venue.html?venueId=' + encodeURI(this.selectedVenue.id) + '&venueName=' + encodeURI(this.selectedVenue.name),
-      // title: 'Title.',
-      // hashtag: '#supportlocalmusic',
-      // data: "thedata",
-      // title: "theTitle",
-      // description: 'Much description',
-      
+    // Share via email
+    this.socialSharing.shareViaFacebook(null, null, 'https://facebook.com/localgrooveapp').then(() => {
+      // Success!
+    }).catch(() => {
+      // Error!
     });
-
   }
 
   // Event for the pull-down-to-refresh.
@@ -232,17 +226,6 @@ export class VenueDetailsPage {
         };
         this.hideLoadingSpinner = true;
       });
-  }
-
-  presentNobodyPlayingToast() {
-    this.toast = this.toastCtrl.create({
-      message: "No artists are checked in here. Bummer.",
-      cssClass: "toast-neutral",
-      duration: 10000,
-      position: 'middle'
-    });
-
-    this.toast.present();
   }
 
   presentTooManyCheckinsToast() {

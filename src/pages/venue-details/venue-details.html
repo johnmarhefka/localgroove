@@ -4,7 +4,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content [ngStyle]="{'background-image': 'url(' + (localPhoto ? localPhoto : '') + ')', 'background-repeat': 'no-repeat', 'background-size': 'cover'}">
+<ion-content #ioncontent [ngStyle]="backgroundImageStyle">
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content>
     </ion-refresher-content>
@@ -14,18 +14,22 @@
   </div>
   <ion-list padding-top [hidden]="hideTipButtons">
     <ion-item>
-      <button ion-button block large *ngFor="let artist of artists | reverse" (click)="artistTapped($event, artist)"><span class="wrap-text">Tip {{artist.name}}</span></button>
+      <button ion-button block large *ngFor="let artist of artists | reverse" (click)="artistTapped($event, artist)">
+        <span class="wrap-text">Tip {{artist.name}}</span>
+      </button>
     </ion-item>
   </ion-list>
   <ion-item>
     <button ion-button block large color="secondary" [hidden]="hideCheckInButton" (click)="artistCheckInTapped($event)">I'm playing here</button>
   </ion-item>
   <ion-item text-center>
-    <img src="assets/FB-f-Logo__blue_58.png" alt="Share to Facebook" (click)="facebookTapped($event)" />
+      <button ion-button block large style="background:url(assets/FB-f-Logo__blue_50.png); background-color:#405798; background-repeat: no-repeat;" (click)="facebookTapped($event)">Share</button>
   </ion-item>
 </ion-content>
 <ion-footer text-center>
   <ion-toolbar>
-    <a href="{{this.venueService.getAttributionLinkForVenue(selectedVenue.id)}}"><img src="assets/pbfsq.png" alt="Powered by Foursquare" /></a>
+    <a href="{{this.venueService.getAttributionLinkForVenue(selectedVenue.id)}}">
+      <img src="assets/pbfsq.png" alt="Powered by Foursquare" />
+    </a>
   </ion-toolbar>
 </ion-footer>
