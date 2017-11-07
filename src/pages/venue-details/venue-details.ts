@@ -208,9 +208,6 @@ export class VenueDetailsPage {
         }
       }
     );
-
-
-
   }
 
   // Uses the Venue service to actually check the artist in.
@@ -220,10 +217,10 @@ export class VenueDetailsPage {
     this.analyticsService.logEvent("artist_checkin", { venueId: this.selectedVenue.id, venueName: this.selectedVenue.name, lat: this.selectedVenue.location.lat, lng: this.selectedVenue.location.lng, artistEmail: this.localArtistEmail, artistName: this.localArtistName });
     this.venueService.checkArtistInToVenue(this.localArtistEmail, this.selectedVenue.id, this.localArtistName)
       .then((res) => {
-        this.artists[this.artists.length] = {
+        this.artists.unshift({
           "id": this.localArtistEmail,
           "name": this.localArtistName
-        };
+        });
         this.hideLoadingSpinner = true;
       });
   }

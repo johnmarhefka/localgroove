@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.localgroove" version="1.3.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Local Groove</name>
-    <description email="localgroovejohn@gmail.com" href="http://ionicframework.com/">Have you ever wanted to tip your local band without cash? Try Local Groove! Payments are powered by Venmo, and it's totally free. There's no percentage taken, and there's no extra charge on top. Artists check in to venues, and by simply selecting a venue, fans are able to tip! More great features to come. Don't forget to tip your band!</description>
+    <description email="localgroovejohn@gmail.com" href="https://facebook.com/localgrooveapp/">Have you ever wanted to tip your local band without cash? Try Local Groove! Payments are powered by Venmo, and it's totally free. There's no percentage taken, and there's no extra charge on top. Artists check in to venues, and by simply selecting a venue, fans are able to tip! More great features to come. Don't forget to tip your band!</description>
     <author>John Marhefka</author>
     <content src="index.html" />
     <access origin="*" />
@@ -82,6 +82,8 @@
     <allow-navigation href="http://192.168.255.141:8000" />
     <allow-navigation href="http://192.168.0.108:8000" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
+    <engine name="android" spec="^6.2.3" />
+    <engine name="ios" spec="^4.4.0" />
     <plugin name="cordova-plugin-appavailability" spec="^0.4.2" />
     <plugin name="cordova-plugin-console" spec="^1.0.7" />
     <plugin name="cordova-plugin-device" spec="^1.1.6" />
@@ -96,6 +98,4 @@
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.2.1" />
     <plugin name="cordova-sqlite-storage" spec="^2.0.4" />
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
-    <engine name="android" spec="^6.2.3" />
-    <engine name="ios" spec="^4.4.0" />
 </widget>
