@@ -12,7 +12,7 @@ import { TipPage } from '../pages/tip/tip';
 import { VenueDetailsPage } from '../pages/venue-details/venue-details';
 import { TabsPage } from '../pages/tabs/tabs';
 import { IonicStorageModule } from '@ionic/storage';
-import { FirebaseAnalytics } from '@ionic-native/firebase-analytics';
+import { Firebase } from '@ionic-native/firebase';
 
 import { VenueService } from '../services/venue.service';
 import { ArtistService } from '../services/artist.service';
@@ -48,6 +48,6 @@ import { AnalyticsService } from '../services/analytics.service';
     TabsPage,
     VenueDetailsPage
   ],
-  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, VenueService, ArtistService, PaymentService, AnalyticsService, FirebaseAnalytics]
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, VenueService, ArtistService, PaymentService, AnalyticsService, Firebase]
 })
 export class AppModule { }

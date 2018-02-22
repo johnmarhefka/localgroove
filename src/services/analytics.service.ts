@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
 
-import { FirebaseAnalytics } from '@ionic-native/firebase-analytics';
+import { Firebase } from '@ionic-native/firebase';
 
 @Injectable()
 export class AnalyticsService {
 
-    constructor(private firebaseAnalytics: FirebaseAnalytics) { }
+    constructor(private firebase: Firebase) { }
 
     logPageView(params: any) {
-        this.firebaseAnalytics.logEvent('page_view', params)
+        this.firebase.logEvent('page_view', params)
             .catch(this.handleError);
     }
 
     logEvent(name: string, params: any) {
-        this.firebaseAnalytics.logEvent(name, params)
+         this.firebase.logEvent(name, params)
             .catch(this.handleError);
     }
 
     setCurrentScreen(name: string) {
-        this.firebaseAnalytics.setCurrentScreen(name)
+        this.firebase.setScreenName(name)
             .catch(this.handleError);
     }
 

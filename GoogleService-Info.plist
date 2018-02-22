@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>560388103661-i68m6jmj3utkq1d1qo6nm2n6jes5pl6r.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.560388103661-i68m6jmj3utkq1d1qo6nm2n6jes5pl6r</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>560388103661-86189pgfu7d45sj15oh99q65qjkfv0fl.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDGdfqizwn8cs-79M-MXhNw9usQmFj51R0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>560388103661</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.johnmarhefka.localgroove</string>
+	<key>PROJECT_ID</key>
+	<string>local-groove</string>
+	<key>STORAGE_BUCKET</key>
+	<string>local-groove.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:560388103661:ios:63af4e33be0744be</string>
+	<key>DATABASE_URL</key>
+	<string>https://local-groove.firebaseio.com</string>
+</dict>
+</plist>

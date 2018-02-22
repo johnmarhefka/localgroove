@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "560388103661",
+    "firebase_url": "https://local-groove.firebaseio.com",
+    "project_id": "local-groove",
+    "storage_bucket": "local-groove.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:560388103661:android:bd8829f9516aa2e6",
+        "android_client_info": {
+          "package_name": "com.localgroove"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "560388103661-86189pgfu7d45sj15oh99q65qjkfv0fl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.localgroove",
+            "certificate_hash": "61c7149ca9916aa2e877377389326597064937b7"
+          }
+        },
+        {
+          "client_id": "560388103661-r1hg1q5pip8smdq5cgbtho5i7pgmk5jf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALwTJiX7LYWRdOiP_rQT1ISBl_ld1yL-8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "560388103661-i68m6jmj3utkq1d1qo6nm2n6jes5pl6r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.johnmarhefka.localgroove",
+                "app_store_id": "1259654680"
+              }
+            },
+            {
+              "client_id": "560388103661-r1hg1q5pip8smdq5cgbtho5i7pgmk5jf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

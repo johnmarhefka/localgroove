@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.localgroove",
+    "sha256_cert_fingerprints": ["FF:40:28:8B:CB:FC:6A:55:A2:62:A2:F8:A6:B9:09:88:90:AA:F4:AA:72:EF:BA:0E:4E:B6:C5:74:5E:0B:B9:51"]
+  }
+}]

@@ -1,6 +1,6 @@
 {
   "name": "Local Groove",
-  "app_id": "",
+  "app_id": "237ba080",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}

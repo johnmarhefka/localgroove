@@ -4,16 +4,16 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-const FSQ_CLIENT_ID = '';
-const FSQ_SECRET = '';
+const FSQ_CLIENT_ID = 'YB4IJ2JMZ5V3EFJCVHHLSPCJCRR4Z5PZQ4FXUP0LLL0QWAVD';
+const FSQ_SECRET = 'YN2MYTGQOK3QXEHTB3HVZKCI4O2P5YU1F53KZAAPB0K0JQMB';
 
-const LG_API_KEY = '';
+const LG_API_KEY = '46D74D6F5E2749D1ED5ACB4B36D7CBBC17C55C246D87FF17D15D658F36';
 
 //const EXPLORE_URL: string = 'https://api.foursquare.com/v2/venues/explore?client_id=' + CLIENT_ID + '&client_secret=' + SECRET + '&sortByDistance=1&v=20130815&ll=';
 const SEARCH_URL: string = 'https://api.foursquare.com/v2/venues/search?client_id=' + FSQ_CLIENT_ID + '&client_secret=' + FSQ_SECRET + '&sortByDistance=1&v=20130815&ll=';
 
-//const LG_SERVICE_URL = 'https://localgrooveserver-dev.herokuapp.com/v2/'; // DEV
-const LG_SERVICE_URL = 'https://localgrooveserver.herokuapp.com/v2/'; // PROD
+const LG_SERVICE_URL = 'https://localgrooveserver-dev.herokuapp.com/v2/'; // DEV
+//const LG_SERVICE_URL = 'https://localgrooveserver.herokuapp.com/v2/'; // PROD
 //const LG_SERVICE_URL = 'http://localhost:5000/v2/'; // Local
 
 @Injectable()
@@ -45,6 +45,15 @@ export class VenueService {
                 console.log('Error getting venues at current coordinates!', error);
                 throw error;
             });
+    }
+
+    getVenueById(venueId: string): Promise<any> {
+        return this.http.get('https://api.foursquare.com/v2/venues/' + venueId + '?v=20130815&client_id=' + FSQ_CLIENT_ID + '&client_secret=' + FSQ_SECRET)
+            .toPromise()
+            .then(
+            response => response.json().response.venue as any
+            )
+            .catch(this.handleError);
     }
 
     // Gets a photo from the provider for a given venue.

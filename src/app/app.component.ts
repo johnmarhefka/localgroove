@@ -1,3 +1,4 @@
+import { Firebase } from '@ionic-native/firebase';
 import { Component } from '@angular/core';
 
 import { Platform } from 'ionic-angular';
@@ -18,7 +19,7 @@ const FIRST_APP_LOAD_STORAGE_KEY = 'firstAppLoad';
 export class LocalGrooveApp {
   rootPage;
 
-  constructor(platform: Platform, private storage: Storage, private splashScreen: SplashScreen, private statusBar: StatusBar) {
+  constructor(platform: Platform, private storage: Storage, private splashScreen: SplashScreen, private statusBar: StatusBar, private firebase: Firebase) {
     platform.ready().then(() => {
 
       this.checkForFirstAppLoad().then(
@@ -33,6 +34,21 @@ export class LocalGrooveApp {
           }
         }
       );
+
+      this.firebase.getToken()
+        .then((token: string) => {
+          console.log('The token is ' + token)
+        }) // save the token server-side and use it to push notifications to this device
+        .catch(error => console.error('Error getting token', error));
+
+      this.firebase.onTokenRefresh()
+        .subscribe((token: string) => console.log('Got a new token: ' + token));
+
+      this.firebase.hasPermission().then((data: { isEnabled: boolean }) =>
+        console.log("Has permission for notifications?: " + data.isEnabled)
+      );
+
+      this.firebase.onNotificationOpen
 
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
