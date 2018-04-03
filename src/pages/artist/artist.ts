@@ -140,6 +140,8 @@ export class ArtistPage {
       this.saveArtistName();
       this.presentToast();
       this.analyticsService.logEvent("artist_registered", { artistEmail: this.artistEmail.trim().toLowerCase(), artistName: this.artistName.trim() });
+      // Have them start getting artist-pertinent notifications.
+      this.artistService.subscribeToArtistNotifications();
     }
   }
 

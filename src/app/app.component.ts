@@ -8,6 +8,7 @@ import { Storage } from '@ionic/storage';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { WelcomePage } from '../pages/welcome/welcome';
+import { ArtistService } from '../services/artist.service';
 
 
 const FIRST_APP_LOAD_STORAGE_KEY = 'firstAppLoad';
@@ -19,36 +20,38 @@ const FIRST_APP_LOAD_STORAGE_KEY = 'firstAppLoad';
 export class LocalGrooveApp {
   rootPage;
 
-  constructor(platform: Platform, private storage: Storage, private splashScreen: SplashScreen, private statusBar: StatusBar, private firebase: Firebase) {
+  constructor(platform: Platform, private storage: Storage, private splashScreen: SplashScreen, private statusBar: StatusBar, private firebase: Firebase, private artistService: ArtistService) {
     platform.ready().then(() => {
-
       this.checkForFirstAppLoad().then(
         (val) => {
           if (val) {
             // It's not their first time here. Carry on to the usual tabs page.
             this.rootPage = TabsPage;
+
+            //TODO: these not here anymore
+            //this.firebase.unsubscribe("artist_notifications");
+            //this.storage.remove("artist_notifications_subscribed");
+            ////
+
+            // Subscribe them to artist notifications if they're an artist but haven't been subscribed yet.
+            this.artistService.getArtistEmail().then(
+              (val) => {
+                if (val) {
+                  this.artistService.subscribeToArtistNotifications();
+                }
+              }
+            );
           } else {
             // It's their first time here. Mark that down and then welcome them.
             this.setFirstAppLoad();
             this.rootPage = WelcomePage;
+            //TODO: these not here anymore
+            //this.firebase.unsubscribe("artist_notifications");
+            //this.storage.remove("artist_notifications_subscribed");
+            ///
           }
         }
       );
-
-      this.firebase.getToken()
-        .then((token: string) => {
-          console.log('The token is ' + token)
-        }) // save the token server-side and use it to push notifications to this device
-        .catch(error => console.error('Error getting token', error));
-
-      this.firebase.onTokenRefresh()
-        .subscribe((token: string) => console.log('Got a new token: ' + token));
-
-      this.firebase.hasPermission().then((data: { isEnabled: boolean }) =>
-        console.log("Has permission for notifications?: " + data.isEnabled)
-      );
-
-      this.firebase.onNotificationOpen
 
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
