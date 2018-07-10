@@ -1,8 +1,9 @@
-
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import { Firebase } from '@ionic-native/firebase';
+
+import { AnalyticsService } from './analytics.service';
 
 const ARTIST_EMAIL_LOCAL_STORAGE_KEY: string = "artistEmail";
 const ARTIST_NAME_LOCAL_STORAGE_KEY: string = "artistName";
@@ -12,7 +13,7 @@ const ARTIST_NOTIFICATION_TOPIC_SUBSCRIBED_KEY: string = "artist_notifications_s
 @Injectable()
 export class ArtistService {
 
-    constructor(private http: Http, private storage: Storage, private firebase: Firebase) { }
+    constructor(private http: Http, private storage: Storage, private firebase: Firebase, private analyticsService: AnalyticsService) { }
 
     getArtistEmail(): Promise<any> {
         return this.storage.get(ARTIST_EMAIL_LOCAL_STORAGE_KEY)
@@ -38,15 +39,16 @@ export class ArtistService {
                 if (!val) {
                     // They haven't been subscribed to this already, so subscribe them.
                     this.storage.set(ARTIST_NOTIFICATION_TOPIC_SUBSCRIBED_KEY, 1);
-                    this.firebase.grantPermission();
+                    this.firebase.hasPermission().then((data) => {
+                        if (!data.isEnabled) {
+                            this.firebase.grantPermission();
+                        }
+                    });
                     this.firebase.subscribe(ARTIST_NOTIFICATION_TOPIC);
-                    console.log('subscribed to artist notifications');
-                } else {
-                    // todo: this not here anymore
-                    console.log('already subscribed to artist notifications, but subscribing anyway');
-                    this.firebase.grantPermission();
-                    this.firebase.subscribe(ARTIST_NOTIFICATION_TOPIC);
-                    ///
+                    // Log that they subscribed.
+                    this.getArtistName().then((val) => {
+                        this.analyticsService.logEvent("artist_notifications_subscribe", { artistName: val });
+                    });
                 }
             }
         ).catch(this.handleError);;

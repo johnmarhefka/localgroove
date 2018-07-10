@@ -28,11 +28,6 @@ export class LocalGrooveApp {
             // It's not their first time here. Carry on to the usual tabs page.
             this.rootPage = TabsPage;
 
-            //TODO: these not here anymore
-            //this.firebase.unsubscribe("artist_notifications");
-            //this.storage.remove("artist_notifications_subscribed");
-            ////
-
             // Subscribe them to artist notifications if they're an artist but haven't been subscribed yet.
             this.artistService.getArtistEmail().then(
               (val) => {
@@ -45,10 +40,6 @@ export class LocalGrooveApp {
             // It's their first time here. Mark that down and then welcome them.
             this.setFirstAppLoad();
             this.rootPage = WelcomePage;
-            //TODO: these not here anymore
-            //this.firebase.unsubscribe("artist_notifications");
-            //this.storage.remove("artist_notifications_subscribed");
-            ///
           }
         }
       );
