@@ -45,6 +45,12 @@ export class ArtistService {
                         }
                     });
                     this.firebase.subscribe(ARTIST_NOTIFICATION_TOPIC);
+                    // TODO in a better way: This is an easter egg for testing notifications on just my device. Deal with it.
+                    this.getArtistEmail().then((val) => {
+                        if (val == "marhefka.john@gmail.com") {
+                            this.firebase.subscribe("john_testing_notifications");
+                        }
+                    });
                     // Log that they subscribed.
                     this.getArtistName().then((val) => {
                         this.analyticsService.logEvent("artist_notifications_subscribe", { artistName: val });
